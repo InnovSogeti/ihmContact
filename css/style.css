@@ -1,0 +1,89 @@
+.checkbox { margin: 0; }
+
+/* Set black background color, white text and some padding */
+footer 
+{
+    background-color: #555;
+    color: #FFFFFF;
+    padding: 15px;
+}
+
+ul.name
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header 
+{
+    background-color: #ff4511;
+    color: #000000;
+    padding: 25px;
+}
+
+#all
+{
+    display: flex;
+    align-items: center;
+}
+
+.left
+{
+    position: absolute;
+    right: 1%;
+    top: 5px;
+}
+
+div {
+    display: block;
+}
+
+.btn.btn-success.btn-block {
+    color: #ffffff;
+    background-color: #ff4511;
+    background-image: linear-gradient(to bottom, #ff4511, #ff4511);
+    border-color: #ff4511 #ff4511 #ff4511;
+}
+.btn.btn-success.btn-block:hover {
+    color: #ffffff;
+    background-image: linear-gradient(to bottom, #ff4511, #ff4511);
+    background-color: #ff4511;
+    border-color: #ff4511 #ff4511 #ff4511;
+}
+
+
+/*
+@font-face {
+    font-family: 'glyphicons-halflings-regular';
+    src: url('/css/fonts/glyphicons-halflings-regular.eot');
+    src: url('/css/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('/css/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('/css/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('/css/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
+  
+  
+ }*/
+
+/**{
+    font-family: 'Germania One', cursive;
+}
+/*@font-face {
+    font-family: 'arial regular';
+    src: url('/css/fonts/Arial-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'cac_champagneregular';
+    src: url('cac_champagne-webfont.ttf');
+}
+
+p
+{
+    font-family: 'cac_champagneregular';
+}
+
+p
+{
+    font-family: "arial regular";
+}*/
