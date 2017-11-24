@@ -2,7 +2,7 @@
     session_start(); // On démarre la session AVANT toute chose
 
     if(isset($_SESSION['id_salon'])){ //Si $var existe.
-        echo ' ';
+        echo $_SESSION['id_salon'];
     }
     else{ //Si $var n'existe pas.
 
@@ -20,6 +20,7 @@
         if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
             die('error occured: ' . $decoded->response->errormessage);
         }
+        echo $decoded;
         if ($decoded == 0) {
             header('Location: http://localhost/AppliContact/salon');
             exit();
@@ -47,119 +48,80 @@
             header('Location: http://localhost/AppliContact/salon');
             exit();
         }
-        /**
-         * faire une requete pour savoir le nb de salon ajd et en f° du retour ==>
-         */
-        /*Si 1 salon {
-            trouve le salon avc un get salon/jour puis _SESSION = salon;
-        }*/
-        /*si salon > 1 {
-            redirige vers une page (/salon) et affiche les salons dispos avec un /aff/jour
-        }
-        */
-        /*si salon == 0 {
-            redirige vers la page de création de salon;
-        }
-        */
     }
 ?>
     <!DOCTYPE html>
         <html>
         <?php include('common/header.php'); ?>
-
         <script type="text/javascript" src="./javascripts/scannedText.js"></script>
         <div class="container">
-            <div class="card">
-                <form enctype="multipart/form-data" name="form" action="" method="post">
-                    <div class="form-group" id="form">
-                        <?php
-                            $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
-                            echo $fullInput;
-                        ?>
-                        <?php include('common/infos_perso.php'); ?>
-                        <?php include('common/infos_competences.php'); ?>
-                    </div>
-                    </br>
-                    <input type="submit" name="submit" class="btn btn-primary" onclick="useradd()"/>
-                    </br>
-                    <label>* : Champs obligatoire</label>
-                    </br>
-                    </br>
-                </form>
-                <script>
-                    function useradd() {
-                        console.log('CDSCDSCDSCDSCDCDSCDSCCDSCDSCDs');
-                    }
-                </script>
-                <?php
-                    if(isset($_POST['submit'])) {
-                        echo '<script type="text/javascript">',
-                        'useradd();',
-                        '</script>';
-                        /*$nom = $_POST['nom'];
-                        $prenom = $_POST['prenom'];
-                        $email = $_POST['email'];
-                        $telephone = $_POST['telephone'];
-                        $linkedin = $_POST['linkedin'];
-                        $viadeo = $_POST['viadeo'];
-                        $jeuMario = $_POST['jeuMario'];
-                        $jeuPepper = $_POST['jeuPepper'];
-                        $ok = $_POST['ok'];
-                        $tab = [];
-                        $tab[0] = $nom;
-                        $tab[1] = $prenom;
-                        $tab[2] = $email;
-                        $tab[3] = $telephone;
-                        $tab[4] = $linkedin;
-                        $tab[5] = $viadeo;
-                        $tab[6] = $jeuMario;
-                        $tab[7] = $jeuPepper;
-                        $tab[8] = $ok;
-                        print_r($tab);
-                        $url = 'localhost:8000/saveUsers' . $tab;
-                        $curl = curl_init($url);
-                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($curl, CURLOPT_POST, true);                        
-                        $curl_response = curl_exec($curl);
-                        echo $curl_response;
-                        if ($curl_response === false) {
-                            $info = curl_getinfo($curl);
-                            curl_close($curl);
-                            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-                        }
-                        curl_close($curl);
-                        $decoded = json_decode($curl_response);
-                        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-                            die('error occured: ' . $decoded->response->errormessage);
-                        }
-                        echo $decoded;
-                        if ($decoded == 200) {
-                            header('Location: http://localhost/AppliContact/salon');
-                            exit();
-                        }*/
-                    }
-                ?>
-            </div>
+            <form class="form-signin">
+                <div class="form-group" id="form">
+                    <?php
+                        $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
+                        echo $fullInput;
+                    ?>
+                    <?php include('common/infos_perso.php'); ?>
+                    <?php include('common/infos_competences.php'); ?>
+                </div>
+                </br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
+                </br>
+                <label>* : Champs obligatoire</label>
+                </br>
+                </br>
+            </form>
         </div>
     </body>
+    <script>
+        /**
+         * permet de ne pas save les champs vide
+         */
+        const isValidElement = element => {
+            return element.name && element.value;
+        };
+        const isValidValue = element => {
+            return (!['checkbox', 'radio'].includes(element.type) || element.checked);
+        };
+        const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+            if (isValidValue(element)) {
+                if (isCheckbox(element)) { data[element.name] = (data[element.name] || []).concat(element.value); } else {
+                    data[element.name] = element.value;
+                }
+            }
+            return data;
+        }, {});
+        const handleFormSubmit = event => {
+            event.preventDefault();
+            const data = formToJSON(form.elements);
+            var json_form = JSON.stringify(data, null, " ");
+            console.log(json_form);
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/saveUsers',
+                dataType : "json",
+                contentType: "application/json; charset=utf-8",
+                data : json_form,
+                success : function(result) {
+                    if (result == 200) {
+                        window.location = "http://localhost/AppliContact/";
+                    }
+                    else {
+                        alert("erreur 500: veuillez recommencer")
+                    }
+                },
+            });
+        };
+        const form = document.getElementsByClassName('form-signin')[0];
+        form.addEventListener('submit', handleFormSubmit);
+        const reducerFunction = (data, element) => {
+            data[element.name] = element.value;
+            //console.log(JSON.stringify(data));
+            return (data);
+        };
+        const isCheckbox = element => element.type === 'checkbox';
+        const isMultiSelect = element => element.options && element.multiple;
+    </script>
     <?php include('common/footer.php'); ?>
 </html>
-
-
-
-<!--<form enctype="multipart/form-data" name="adduser" methode="post">
-    <div class="form-group" id="form">
-    <?php
-            //$fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
-            //echo $fullInput;
-        ?>
-        <?php //include('common/infos_perso.php'); ?>
-        <?php //include('common/infos_competences.php'); ?>
-    </div>
-    </br>
-    <button type="submit" class="btn btn-success btn-lg btn-block">Valider</button>
-    </br>
-    <label>* : Champs obligatoire</label>
-    </br>
-    </br>
-</form>-->

@@ -7,34 +7,23 @@
         </div>
         </br>
     </div>
-    
-    <div class="container">
-        </br>
-        Liste des visiteurs :
-        <div id="stat">
-            <p class="stat">
-            </p>
-        </div>
-    </div>
-    <!--<pre>
-        <?php
-            /*$url = 'localhost:8000/salon/34';
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $curl_response = curl_exec($curl);
-            if ($curl_response === false) {
-                $info = curl_getinfo($curl);
-                curl_close($curl);
-                die('error occured during curl exec. Additioanl info: ' . var_export($info));
-            }
+    <?php 
+        $url = 'localhost:8000/tirage/' . $_SESSION['id_salon'];
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $curl_response = curl_exec($curl);
+        if ($curl_response === false) {
+            $info = curl_getinfo($curl);
             curl_close($curl);
-            $decoded = json_decode($curl_response);
-            if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-                die('error occured: ' . $decoded->response->errormessage);
-            }
-            print_r($decoded);*/
-        ?>
-    </pre>-->
+            die('error occured during curl exec. Additioanl info: ' . var_export($info));
+        }
+        curl_close($curl);
+        $decoded = json_decode($curl_response);
+        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+            die('error occured: ' . $decoded->response->errormessage);
+        }
+        $_SESSION['visiteurs'] = $decoded;
+    ?>
     <div class="container" id="tab">
         </br>
     </div>

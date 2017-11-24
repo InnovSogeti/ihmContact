@@ -14,10 +14,9 @@
     <link rel="icon" sizes="192x192" href="images/sogeti_splash.jpeg">
     <link type="text/css" rel="stylesheet" href="css/JsQRScanner.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="./css/style.css" rel="stylesheet" type="text/css">
     <link rel="manifest" href="scripts/manifest.json">
     <link rel="canonical" href="http://localhost:3000/" />
-    <!--<link href="https://fonts.googleapis.com/css?family=Germania+One" rel="stylesheet">-->
     <title></title>
 </head>
 
