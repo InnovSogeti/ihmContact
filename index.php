@@ -22,7 +22,7 @@
         }
         echo $decoded;
         if ($decoded == 0) {
-            header('Location: http://localhost/AppliContact/salon');
+            header('Location: http://localhost/ihmContact/salon');
             exit();
         }
         else if ($decoded == 1) {
@@ -45,7 +45,7 @@
             $_SESSION['id_salon'] = $val;
         }
         else if ($decoded > 1) {
-            header('Location: http://localhost/AppliContact/salon');
+            header('Location: http://localhost/ihmContact/salon');
             exit();
         }
     }
@@ -105,7 +105,7 @@
                 data : json_form,
                 success : function(result) {
                     if (result == 200) {
-                        window.location = "http://localhost/AppliContact/";
+                        window.location = "http://localhost/ihmContact/";
                     }
                     else {
                         alert("erreur 500: veuillez recommencer")

@@ -62,7 +62,7 @@
                 success : function(result) {
                     console.log(result);
                     if (result == 200) {
-                        header('Location: http://localhost/AppliContact/salon');
+                        header('Location: http://localhost/ihmContact/salon');
                         exit();
                     }
                     else {

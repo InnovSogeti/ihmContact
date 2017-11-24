@@ -96,11 +96,11 @@
         if(isset($_POST['submit'])) {
             if (isset($_POST['my_id'])) {
                 $_SESSION['id_salon'] = $_POST['my_id'];
-                echo "<script type='text/javascript'>document.location.replace('http://localhost/AppliContact/');</script>";
+                echo "<script type='text/javascript'>document.location.replace('http://localhost/ihmContact/');</script>";
             }
             if(isset($_POST['aff'])) {
                 $_SESSION['id_salon'] = $_POST['aff'];
-                echo "<script type='text/javascript'>document.location.replace('http://localhost/AppliContact/list_visiteur.php');</script>";
+                echo "<script type='text/javascript'>document.location.replace('http://localhost/ihmContact/list_visiteur.php');</script>";
             }
         };
     ?>

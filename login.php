@@ -27,7 +27,7 @@
                     die('error occured: ' . $decoded->response->errormessage);
                 }
                 if ($decoded == 200) {
-                    header('Location: http://localhost/AppliContact/salon');
+                    header('Location: http://localhost/ihmContact/salon');
                     exit();
                 }
             }
