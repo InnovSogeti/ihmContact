@@ -22,7 +22,7 @@
                         <a href="https://www.fr.sogeti.com/" rel="nofollow" target="_blank">
                             <strong>
                                     <img src="images/logo.jpg" alt="groupe Capgemini" width="107" height="26">
-                                </strong>
+                            </strong>
                         </a>
                     </p>
                     <p>&nbsp;</p>

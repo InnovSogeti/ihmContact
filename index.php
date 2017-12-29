@@ -6,7 +6,7 @@
     }
     else{ //Si $var n'existe pas.
 
-        $url = 'localhost:8000/getSalon';
+        $url = 'localhost:8000/salon/get/';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
@@ -20,13 +20,12 @@
         if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
             die('error occured: ' . $decoded->response->errormessage);
         }
-        echo $decoded;
         if ($decoded == 0) {
-            header('Location: http://localhost/ihmContact/salon');
+            header('Location: http://localhost/ihmContact/login');
             exit();
         }
         else if ($decoded == 1) {
-            $url = 'localhost:8000/affSalon';
+            $url = 'localhost:8000/salon/affSalon';
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             $curl_response = curl_exec($curl);
@@ -43,9 +42,10 @@
             foreach ($decoded as $val) {
             }
             $_SESSION['id_salon'] = $val;
+            echo $val;
         }
         else if ($decoded > 1) {
-            header('Location: http://localhost/ihmContact/salon');
+            header('Location: http://localhost/ihmContact/login');
             exit();
         }
     }
@@ -117,7 +117,6 @@
         form.addEventListener('submit', handleFormSubmit);
         const reducerFunction = (data, element) => {
             data[element.name] = element.value;
-            //console.log(JSON.stringify(data));
             return (data);
         };
         const isCheckbox = element => element.type === 'checkbox';

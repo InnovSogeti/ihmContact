@@ -45,15 +45,15 @@
                 });
                 }
             </script>-->
-    <header>
-        <div class="head_all">
-            <a href="http://localhost/AppliContact/" rel="nofollow" target="">
-                <img class="left" src="images/logo.jpg" alt="groupe Sogeti" width="30%">
-            </a>
-            <div>
-                <font color="white">
-                    <h1 id="title">DevFest</h1>
-                </font>
+        <header>
+            <div class="head_all">
+                <a href="http://localhost/ihmContact/" rel="nofollow" target="">
+                    <img class="left" src="images/logo.jpg" alt="groupe Sogeti" width="30%">
+                </a>
+                <div>
+                    <font color="white">
+                        <h1 id="title">DevFest</h1>
+                    </font>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>

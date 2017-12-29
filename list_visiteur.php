@@ -11,7 +11,7 @@
     </div>
 
     <?php 
-        $url = 'localhost:8000/affSalon/' . $_SESSION['id_salon'];
+        $url = 'localhost:8000/visiteur/aff/' . $_SESSION['id_salon'];
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);

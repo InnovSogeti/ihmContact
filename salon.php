@@ -17,7 +17,7 @@
         </div>
     </div>
     <?php 
-        $url = 'localhost:8000/salon/1';
+        $url = 'localhost:8000/salon/list/1';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
