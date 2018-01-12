@@ -17,7 +17,7 @@
         </div>
     </div>
     <?php 
-        $url = 'localhost:8000/salon/list/1';
+        $url = 'localhost:8000/salon/list';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
@@ -72,7 +72,7 @@
                 htmlSalons = htmlSalons + listeSalons[i].date_fin;
 
                 htmlSalons = htmlSalons + "<form enctype=\"multipart/form-data\" action=\"\" name=\"form\" method=\"post\">"
-                htmlSalons = htmlSalons + "<div class=\"form-group\"><input id=\"valider\" type=\"text\" class=\"form-control\" name=\"my_id\" value=\"";
+                htmlSalons = htmlSalons + "<div class=\"form-group\"><input id=\"valider\" type=\"text\" class=\"form-control\" name=\"choisirSalon\" value=\"";
                 htmlSalons = htmlSalons + listeSalons[i].id_salon;
                 htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'></div>";
                 htmlSalons = htmlSalons + "<input type=\"submit\" name=\"submit\" class=\"btn btn-primary btn-lg btn-block\"/>"
@@ -94,13 +94,13 @@
     </script>
     <?php 
         if(isset($_POST['submit'])) {
-            if (isset($_POST['my_id'])) {
-                $_SESSION['id_salon'] = $_POST['my_id'];
-                echo "<script type='text/javascript'>document.location.replace('http://localhost/ihmContact/');</script>";
+            if (isset($_POST['choisirSalon'])) {
+                $_SESSION['id_salon'] = $_POST['choisirSalon'];
+                echo "<script type='text/javascript'>window.location.pathname='/';</script>";
             }
             if(isset($_POST['aff'])) {
                 $_SESSION['id_salon'] = $_POST['aff'];
-                echo "<script type='text/javascript'>document.location.replace('http://localhost/ihmContact/list_visiteur.php');</script>";
+                echo "<script type='text/javascript'>window.location.pathname='/list_visiteur.php';</script>";
             }
         };
     ?>

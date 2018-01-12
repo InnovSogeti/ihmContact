@@ -61,8 +61,7 @@
                 success : function(result) {
                     console.log(result);
                     if (result == 200) {
-                        header('Location: http://localhost/ihmContact/salon');
-                        exit();
+                        window.location.pathname="/salon.php";
                     }
                     else {
                         alert("erreur 500: veuillez recommencer")

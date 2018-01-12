@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="./css/style.css" rel="stylesheet" type="text/css">
     <link rel="manifest" href="scripts/manifest.json">
-    <link rel="canonical" href="http://localhost:3000/" />
     <title></title>
 </head>
 
@@ -47,7 +46,7 @@
             </script>-->
         <header>
             <div class="head_all">
-                <a href="http://localhost/ihmContact/" rel="nofollow" target="">
+                <a href="/" rel="nofollow" target="">
                     <img class="left" src="images/logo.jpg" alt="groupe Sogeti" width="30%">
                 </a>
                 <div>
