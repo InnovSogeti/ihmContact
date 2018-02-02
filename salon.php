@@ -1,8 +1,4 @@
-<?php
-    session_start();
-?>
-
-<?php include('common/header.php'); ?>
+<?php include('common/headerSalon.php'); ?>
     </br>
     <div class="container">
         <a href="add_salon.php" rel="nofollow" target="">
@@ -17,7 +13,7 @@
         </div>
     </div>
     <?php 
-        $url = 'localhost:8000/salon/list';
+        $url = 'localhost:8000/salon';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
@@ -27,18 +23,17 @@
             die('error occured during curl exec. Additioanl info: ' . var_export($info));
         }
         curl_close($curl);
-        $decoded = json_decode($curl_response);
+        $listeSalonsObj = json_decode($curl_response);
         if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
             die('error occured: ' . $decoded->response->errormessage);
         }
-        $_SESSION['salons'] = $decoded;
     ?>
     <script>
         var i = 0;
         var count = 1;
         var z = 0;
 
-        var listeSalons = <?php echo json_encode($_SESSION['salons'], JSON_HEX_TAG); ?>;
+        var listeSalons = <?php echo json_encode($listeSalonsObj, JSON_HEX_TAG); ?>;
         if (listeSalons[0] == undefined) {
             var choix = "<h1>Aucun salon n'est disponible, veuillez en créer un.</p>";
             document.getElementById("explication").innerHTML += choix;
@@ -71,37 +66,48 @@
                 htmlSalons = htmlSalons + "</br>Date de fin : ";
                 htmlSalons = htmlSalons + listeSalons[i].date_fin;
 
-                htmlSalons = htmlSalons + "<form enctype=\"multipart/form-data\" action=\"\" name=\"form\" method=\"post\">"
-                htmlSalons = htmlSalons + "<div class=\"form-group\"><input id=\"valider\" type=\"text\" class=\"form-control\" name=\"choisirSalon\" value=\"";
-                htmlSalons = htmlSalons + listeSalons[i].id_salon;
-                htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'></div>";
-                htmlSalons = htmlSalons + "<input type=\"submit\" name=\"submit\" class=\"btn btn-primary btn-lg btn-block\"/>"
-                htmlSalons = htmlSalons + "</form>";
-
-                htmlSalons = htmlSalons + "<form enctype=\"multipart/form-data\" class=\"form_aff\" name=\"form\" method=\"post\">"
-                htmlSalons = htmlSalons + "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"aff\" value=\"";
-                htmlSalons = htmlSalons + listeSalons[i].id_salon;
-                htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'></div>"
-                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"submit\" class=\"btn btn-primary btn-lg btn-block\">Afficher la liste des visiteurs</button>"
-                htmlSalons = htmlSalons + "</form>";
+                //htmlSalons = htmlSalons + "<form enctype=\"multipart/form-data\" class=\"form_salon\" name=\"form\" method=\"post\">"
+                htmlSalons = htmlSalons + "<div class=\"form-group\">"
+                htmlSalons = htmlSalons + "<input id=\"id_salon\" type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"";
+                htmlSalons = htmlSalons + listeSalons[i]._id;
+                htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'>"
+                htmlSalons = htmlSalons + "</div>";
+                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
+                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\">Afficher la liste des visiteurs</button>"
+                htmlSalons = htmlSalons + "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
+                //htmlSalons = htmlSalons + "</form>";
 
                 htmlSalons = htmlSalons + "</div></div></div>";
                 document.getElementById("accordion").innerHTML += htmlSalons;
+                
                 count++;
             }
             i++;
         }
+
+        function choisirSalon(idSalon){
+            window.location.href="/index.php?id_salon="+idSalon;
+            //window.location.pathname="http://appcontact.local/index.php?id_salon="+idSalon
+            //document.location.href="http://www.google.fr";
+            //window.location.href="http://www.google.fr";
+        }
+
+
+        function deleteSalon(idSalon){
+            $.ajax({
+                type: "DELETE",
+                url: 'http://localhost:8000/salon/'+idSalon,
+                success : function(result) {
+                    console.log(result);
+                    if (result == 200) {
+                        window.location.pathname="/salon.php";
+                    }
+                    else {
+                        alert("erreur 500: veuillez recommencer")
+                    }
+                },
+            }); 
+        }
     </script>
-    <?php 
-        if(isset($_POST['submit'])) {
-            if (isset($_POST['choisirSalon'])) {
-                $_SESSION['id_salon'] = $_POST['choisirSalon'];
-                echo "<script type='text/javascript'>window.location.pathname='/';</script>";
-            }
-            if(isset($_POST['aff'])) {
-                $_SESSION['id_salon'] = $_POST['aff'];
-                echo "<script type='text/javascript'>window.location.pathname='/list_visiteur.php';</script>";
-            }
-        };
-    ?>
+
 <?php include('common/footer.php'); ?>

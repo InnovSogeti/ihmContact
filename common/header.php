@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+session_start(); // On démarre la session AVANT toute chose
+?>
 <html lang="fr">
 
 <head>
@@ -18,41 +21,3 @@
     <link rel="manifest" href="scripts/manifest.json">
     <title></title>
 </head>
-
-<body>
-    <script>
-        $(function() {
-            $.getJSON('site_map.json', function(data) {
-                var obj = data; //tous le fichier JSON dans un obj
-                var site_map = Object.keys(obj);
-                document.querySelector("title").textContent += data[site_map[0]];
-                document.getElementById("title").innerHTML = data[site_map[0]];
-            });
-        });
-    </script>
-
-    <!--<script>
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                    });
-                });
-                }
-            </script>-->
-        <header>
-            <div class="head_all">
-                <a href="/" rel="nofollow" target="">
-                    <img class="left" src="images/logo.jpg" alt="groupe Sogeti" width="30%">
-                </a>
-                <div>
-                    <font color="white">
-                        <h1 id="title">DevFest</h1>
-                    </font>
-                </div>
-            </div>
-        </header>

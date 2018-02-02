@@ -54,7 +54,7 @@
 
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:8000/addSalons',
+                url: 'http://localhost:8000/salon/add',
                 dataType : "json",
                 contentType: "application/json; charset=utf-8",
                 data : json_form,
