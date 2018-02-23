@@ -10,8 +10,6 @@
             $.getJSON('site_map.json', function(data) {
                 var obj = data; //tous le fichier JSON dans un obj
                 var site_map = Object.keys(obj);
-                var labelEvenement = <?php echo $_SESSION["id_salon"]; ?>;
-                document.getElementById("title").innerHTML = labelEvenement;
 
             });
         });

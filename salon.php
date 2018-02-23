@@ -72,7 +72,7 @@
                 htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'>"
                 htmlSalons = htmlSalons + "</div>";
                 htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
-                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\">Afficher la liste des visiteurs</button>"
+                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\" onclick=\"afficherContactsSalon('"+listeSalons[i]._id+"')\">Afficher la liste des visiteurs</button>"
                 htmlSalons = htmlSalons + "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
 
                 htmlSalons = htmlSalons + "</div></div></div>";
@@ -85,6 +85,10 @@
 
         function choisirSalon(idSalon){
             window.location.href="/index.php?id_salon="+idSalon;
+        }
+
+        function afficherContactsSalon(idSalon){
+            window.location.href="/contact.php?id_salon="+idSalon;
         }
 
 

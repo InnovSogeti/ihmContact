@@ -4,7 +4,7 @@
         <form class="form-signin">
             <div class="form-group" id="form">
                 <?php
-                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['nom_salon'] . "\" style='visibility:hidden;display:none'></div>";
+                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
                     echo $fullInput;
                 ?>
                 <?php include('common/infos_perso.php'); ?>
@@ -45,13 +45,14 @@
 
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:8000/saveUsers',
+                url: 'http://localhost:8000/contact/add',
                 dataType : "json",
                 contentType: "application/json; charset=utf-8",
                 data : json_form,
                 success : function(result) {
+                    console.log(result);
                     if (result == 200) {
-                        window.location = "http://localhost/ihmContact/";
+                        window.location.pathname="/index.php";
                     }
                     else {
                         alert("erreur 500: veuillez recommencer")

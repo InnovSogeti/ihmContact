@@ -18,7 +18,6 @@
             die('error occured: ' . $decoded->response->errormessage);
         }
         
-        //echo $salonSelect->{'nom'};
         $_SESSION['nom_salon']=$salonSelect->{'nom'};;
     }
 ?>
@@ -28,8 +27,6 @@
             $.getJSON('site_map.json', function(data) {
                 var obj = data; //tous le fichier JSON dans un obj
                 var site_map = Object.keys(obj);
-                var labelEvenement = <?php echo $_SESSION["nom_salon"]; ?>;
-                document.getElementById("title").innerHTML = labelEvenement;
 
             });
         });
@@ -42,11 +39,12 @@
             </a>
             <div>
                 <font color="white">
+                    <a style="color:white;text-decoration:none;" href="/salon.php" target="">
                     <h1 id="title"><?php 
                     if(isset($_SESSION['nom_salon'])){ //Si $var existe.
                         echo $_SESSION['nom_salon'];
                     }
-                    ?></h1>
+                    ?></h1></a>
                 </font>
             </div>
         </div>

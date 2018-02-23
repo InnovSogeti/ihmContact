@@ -1,8 +1,7 @@
-<!DOCTYPE html>
+<!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="fr">
 <?php
 session_start(); // On démarre la session AVANT toute chose
 ?>
-<html lang="fr">
 
 <head>
     <!-- This script loads your compiled module.-->
