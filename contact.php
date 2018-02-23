@@ -1,14 +1,51 @@
 <?php include('common/headerContact.php'); ?>
 
+<?php 
+        $url = 'localhost:8000/salon';
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $curl_response = curl_exec($curl);
+        if ($curl_response === false) {
+            $info = curl_getinfo($curl);
+            curl_close($curl);
+            die('error occured during curl exec. Additioanl info: ' . var_export($info));
+        }
+        curl_close($curl);
+        $listeSalonsObj = json_decode($curl_response,true);
+        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+            die('error occured: ' . $decoded->response->errormessage);
+        }
+?>
     <div class="container">
-        <h1>Liste des visiteurs du salon :</h1>
+        <h1>
+            <select name="salons" size="1" onchange="changeSalon(this.value)">
+            <?php
+            foreach($listeSalonsObj as $data){
+                $selected='';
+                if(isset($_SESSION['id_salon']) && $data["_id"]==$_SESSION['id_salon']){
+                    $selected='selected';
+                }
+                echo '<option value="'.$data["_id"].'" '.$selected.'>'.$data["nom"].'</option><br/>';
+            }
+            if(isset($_SESSION['id_salon'])){
+                echo '<option value="all" >ALL</option><br/>';
+            }else{
+                echo '<option value="all" selected >ALL</option><br/>';
+            }
+            ?>
+            </select>
+        </h1>
         </br>
             <div id="list">
         </div>
     </div>
 
     <?php 
-        $url = 'localhost:8000/contact/salon/'. $_SESSION['id_salon'];
+        if(isset($_SESSION['id_salon'])){
+            $url = 'localhost:8000/contact/salon/'. $_SESSION['id_salon'];
+        }else{
+            $url = 'localhost:8000/contact/salon/all';
+        }
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
@@ -46,6 +83,10 @@
         }
         visiteurs = visiteurs + "</table>"
         document.getElementById("list").innerHTML += visiteurs;
+
+        function changeSalon(idSalon) {
+            window.location.href="/contact.php?id_salon="+idSalon;
+        }
     </script>
     <style>
         table {
