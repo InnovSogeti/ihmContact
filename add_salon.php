@@ -15,6 +15,11 @@
                 <textarea class="form-control" rows="3" name="description_salon"></textarea>
             </div>
             <div class="form-group">
+            <label for="logo_salon">logo</label>
+                <input type="file" name="logo_salon" />
+                <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+            </div>
+            <div class="form-group">
                 <label for="debut_salon">Du : *</label>
                 <input type="date" class="form-control" name="debut_salon" required>
             </div>

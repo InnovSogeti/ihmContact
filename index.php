@@ -4,7 +4,7 @@
         <form class="form-signin">
             <div class="form-group" id="form">
                 <?php
-                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
+                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['nom_salon'] . "\" style='visibility:hidden;display:none'></div>";
                     echo $fullInput;
                 ?>
                 <?php include('common/infos_perso.php'); ?>

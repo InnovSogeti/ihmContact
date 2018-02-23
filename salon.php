@@ -66,7 +66,6 @@
                 htmlSalons = htmlSalons + "</br>Date de fin : ";
                 htmlSalons = htmlSalons + listeSalons[i].date_fin;
 
-                //htmlSalons = htmlSalons + "<form enctype=\"multipart/form-data\" class=\"form_salon\" name=\"form\" method=\"post\">"
                 htmlSalons = htmlSalons + "<div class=\"form-group\">"
                 htmlSalons = htmlSalons + "<input id=\"id_salon\" type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"";
                 htmlSalons = htmlSalons + listeSalons[i]._id;
@@ -75,7 +74,6 @@
                 htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
                 htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\">Afficher la liste des visiteurs</button>"
                 htmlSalons = htmlSalons + "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
-                //htmlSalons = htmlSalons + "</form>";
 
                 htmlSalons = htmlSalons + "</div></div></div>";
                 document.getElementById("accordion").innerHTML += htmlSalons;
@@ -87,9 +85,6 @@
 
         function choisirSalon(idSalon){
             window.location.href="/index.php?id_salon="+idSalon;
-            //window.location.pathname="http://appcontact.local/index.php?id_salon="+idSalon
-            //document.location.href="http://www.google.fr";
-            //window.location.href="http://www.google.fr";
         }
 
 
