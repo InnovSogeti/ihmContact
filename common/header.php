@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="fr">
+<?php
+session_start(); // On démarre la session AVANT toute chose
+?>
 
 <head>
     <!-- This script loads your compiled module.-->
@@ -16,44 +18,5 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="./css/style.css" rel="stylesheet" type="text/css">
     <link rel="manifest" href="scripts/manifest.json">
-    <link rel="canonical" href="http://localhost:3000/" />
     <title></title>
 </head>
-
-<body>
-    <script>
-        $(function() {
-            $.getJSON('site_map.json', function(data) {
-                var obj = data; //tous le fichier JSON dans un obj
-                var site_map = Object.keys(obj);
-                document.querySelector("title").textContent += data[site_map[0]];
-                document.getElementById("title").innerHTML = data[site_map[0]];
-            });
-        });
-    </script>
-
-    <!--<script>
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                    });
-                });
-                }
-            </script>-->
-        <header>
-            <div class="head_all">
-                <a href="http://localhost/ihmContact/" rel="nofollow" target="">
-                    <img class="left" src="images/logo.jpg" alt="groupe Sogeti" width="30%">
-                </a>
-                <div>
-                    <font color="white">
-                        <h1 id="title">DevFest</h1>
-                    </font>
-                </div>
-            </div>
-        </header>

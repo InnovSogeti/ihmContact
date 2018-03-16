@@ -1,7 +1,7 @@
 <div>
     <label>J'autorise Sogeti à garder mes infos pour me recontacter</label></br>
-    <input name="ok" type="radio" data-toggle="collapse" data-target=".collapseOne.in" value="nop" checked /> Non &#160&#160&#160&#160&#160&#160
-    <input name="ok" type="radio" data-toggle="collapse" data-target=".collapseOne:not(.in)" value="ok" /> Oui
+    <input name="ok" type="radio" data-toggle="collapse" data-target=".collapseOne.in" value="false" checked /> Non &#160&#160&#160&#160&#160&#160
+    <input name="ok" type="radio" data-toggle="collapse" data-target=".collapseOne:not(.in)" value="true" /> Oui
 </div>
 <script type="text/javascript" src="./javascripts/collapse.js"></script>
 <div class="panel-group" id="accordion">

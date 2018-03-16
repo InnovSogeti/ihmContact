@@ -1,78 +1,24 @@
-<?php
-    session_start(); // On démarre la session AVANT toute chose
+<?php include('common/headerContact.php'); ?>
+    <script type="text/javascript" src="./javascripts/scannedText.js"></script>
+    <div class="container">
+        <form class="form-signin">
+            <div class="form-group" id="form">
+                <?php
+                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
+                    echo $fullInput;
+                ?>
+                <?php include('common/infos_perso.php'); ?>
+                <?php include('common/infos_competences.php'); ?>
+            </div>
+            </br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
+            </br>
+            <label>* : Champs obligatoire</label>
+            </br>
+            </br>
+        </form>
+    </div>
 
-    if(isset($_SESSION['id_salon'])){ //Si $var existe.
-        echo $_SESSION['id_salon'];
-    }
-    else{ //Si $var n'existe pas.
-
-        $url = 'localhost:8000/salon/get/';
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-        }
-        curl_close($curl);
-        $decoded = json_decode($curl_response);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-        if ($decoded == 0) {
-            header('Location: http://localhost/ihmContact/login');
-            exit();
-        }
-        else if ($decoded == 1) {
-            $url = 'localhost:8000/salon/affSalon';
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $curl_response = curl_exec($curl);
-            if ($curl_response === false) {
-                $info = curl_getinfo($curl);
-                curl_close($curl);
-                die('error occured during curl exec. Additioanl info: ' . var_export($info));
-            }
-            curl_close($curl);
-            $decoded = json_decode($curl_response);
-            if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-                die('error occured: ' . $decoded->response->errormessage);
-            }
-            foreach ($decoded as $val) {
-            }
-            $_SESSION['id_salon'] = $val;
-            echo $val;
-        }
-        else if ($decoded > 1) {
-            header('Location: http://localhost/ihmContact/login');
-            exit();
-        }
-    }
-?>
-    <!DOCTYPE html>
-        <html>
-        <?php include('common/header.php'); ?>
-        <script type="text/javascript" src="./javascripts/scannedText.js"></script>
-        <div class="container">
-            <form class="form-signin">
-                <div class="form-group" id="form">
-                    <?php
-                        $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"my_id\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
-                        echo $fullInput;
-                    ?>
-                    <?php include('common/infos_perso.php'); ?>
-                    <?php include('common/infos_competences.php'); ?>
-                </div>
-                </br>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
-                </br>
-                <label>* : Champs obligatoire</label>
-                </br>
-                </br>
-            </form>
-        </div>
-    </body>
     <script>
         /**
          * permet de ne pas save les champs vide
@@ -99,13 +45,14 @@
 
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:8000/saveUsers',
+                url: 'http://localhost:8000/contact/add',
                 dataType : "json",
                 contentType: "application/json; charset=utf-8",
                 data : json_form,
                 success : function(result) {
+                    console.log(result);
                     if (result == 200) {
-                        window.location = "http://localhost/ihmContact/";
+                        window.location.pathname="/index.php";
                     }
                     else {
                         alert("erreur 500: veuillez recommencer")
