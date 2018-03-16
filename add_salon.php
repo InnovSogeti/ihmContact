@@ -1,4 +1,4 @@
-<?php include('common/header.php'); ?>
+<?php include('common/headerSalon.php'); ?>
     </br>
     <div class="container">
         <form class="form-signin">
