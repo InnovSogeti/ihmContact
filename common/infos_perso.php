@@ -43,6 +43,7 @@
     <label for="viadeo">Viadeo</label>
     <input type="text" class="form-control" name="viadeo" placeholder="Viadeo">
 </div>
+<!--
 <div class="form-group">
     <label>A quoi avez-vous participé ?</label>
 </div>
@@ -53,5 +54,6 @@
 <div class="checkbox">
     <label><input type="checkbox" name="jeuPepper" value="pepper" /> Robot Pepper</label>
 </div>
+-->
 </br>
 </br>
