@@ -19,6 +19,8 @@
         }
         
         $_SESSION['nom_salon']=$salonSelect->{'nom'};;
+    }else{
+        header("Location: /salon.php");
     }
 ?>
 <body>

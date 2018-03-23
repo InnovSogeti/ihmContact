@@ -93,9 +93,10 @@
 
 
         function deleteSalon(idSalon){
+            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
             $.ajax({
                 type: "DELETE",
-                url: 'http://localhost:8000/salon/'+idSalon,
+                url: url+'/salon/'+idSalon,
                 success : function(result) {
                     console.log(result);
                     if (result == 200) {
