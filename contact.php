@@ -22,15 +22,15 @@
             <?php
             foreach($listeSalonsObj as $data){
                 $selected='';
-                if(isset($_SESSION['id_salon']) && $data["_id"]==$_SESSION['id_salon']){
+                if(isset($_GET['id_salon']) && $data["_id"]==$_GET['id_salon']){
                     $selected='selected';
                 }
                 echo '<option value="'.$data["_id"].'" '.$selected.'>'.$data["nom"].'</option><br/>';
             }
-            if(isset($_SESSION['id_salon'])){
-                echo '<option value="all" >ALL</option><br/>';
-            }else{
+            if(isset($_GET['id_salon']) && $_GET['id_salon']=='all'){
                 echo '<option value="all" selected >ALL</option><br/>';
+            }else{
+                echo '<option value="all" >ALL</option><br/>';
             }
             ?>
             </select>
@@ -41,10 +41,12 @@
     </div>
 
     <?php 
-        if(isset($_SESSION['id_salon'])){
-            $url = 'localhost:8000/contact/salon/'. $_SESSION['id_salon'];
-        }else{
-            $url = 'localhost:8000/contact/salon/all';
+        if(isset($_GET['id_salon'])){
+            if($_GET['id_salon'] == 'all'){
+                $url = 'localhost:8000/contact';
+            }else{
+                $url = 'localhost:8000/contact/salon/'. $_GET['id_salon'];    
+            }
         }
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
