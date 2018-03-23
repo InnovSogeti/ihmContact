@@ -50,6 +50,8 @@
                     <h1 id="title"><?php 
                     if(isset($_SESSION['nom_salon'])){ //Si $var existe.
                         echo $_SESSION['nom_salon'];
+                    }else{
+                        echo 'Salons';
                     }
                     ?></h1></a>
                 </font>
