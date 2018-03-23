@@ -5,8 +5,6 @@ session_start(); // On démarre la session AVANT toute chose
 $fichier_conf="config.ini";
 if(file_exists ( $fichier_conf )){
     $ini_array = parse_ini_file($fichier_conf);
-    print_r($ini_array);
-    print_r($ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]);
 }else{
     print_r("FICHIER DE CONF INTROUVABLE");
 }
