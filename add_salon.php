@@ -56,10 +56,10 @@
             event.preventDefault();
             const data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
-
+            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:8000/salon/add',
+                url: url+'/salon/add',
                 dataType : "json",
                 contentType: "application/json; charset=utf-8",
                 data : json_form,
