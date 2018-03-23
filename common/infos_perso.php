@@ -1,10 +1,12 @@
-<h2>Participation au jeu</h2>
+<h2>Participation</h2>
 <div class="row-element-set row-element-set-QRScanner">
     <div id="all">
+        <!--
         <div class="row-element" id="cam">
             <div class="qrscanner" id="scanner">
             </div>
         </div>
+        -->
         <img class="background" src="images/oser.png" alt="groupe Capgemini" width="50%">
     </div>
     </br>

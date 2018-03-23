@@ -106,6 +106,8 @@
             color: white;
         }
     </style>
-
+    </br>
+    </br>
+    </br>
     <?php include('common/footer.php'); ?>
 </html>
