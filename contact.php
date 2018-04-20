@@ -1,6 +1,6 @@
 <?php include('common/headerContact.php'); ?>
 
-<?php 
+<?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -38,14 +38,19 @@
         </br>
             <div id="list">
         </div>
-    </div>
-
-    <?php 
+      </br>
+        </div>
+        <div class="container">
+          <form class="" action="creationcsv.php" method="post">
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
+          </form>
+        </div>
+    <?php
         if(isset($_GET['id_salon'])){
             if($_GET['id_salon'] == 'all'){
                 $url = 'localhost:8000/contact';
             }else{
-                $url = 'localhost:8000/contact/salon/'. $_GET['id_salon'];    
+                $url = 'localhost:8000/contact/salon/'. $_GET['id_salon'];
             }
         }
         $curl = curl_init($url);
@@ -85,11 +90,11 @@
         }
         visiteurs = visiteurs + "</table>"
         document.getElementById("list").innerHTML += visiteurs;
-
         function changeSalon(idSalon) {
             window.location.href="/contact.php?id_salon="+idSalon;
         }
     </script>
+
     <style>
         table {
             border-collapse: collapse;

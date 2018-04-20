@@ -12,7 +12,7 @@
         <div class="panel-group" id="accordion">
         </div>
     </div>
-    <?php 
+    <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -77,7 +77,7 @@
 
                 htmlSalons = htmlSalons + "</div></div></div>";
                 document.getElementById("accordion").innerHTML += htmlSalons;
-                
+
                 count++;
             }
             i++;
@@ -106,7 +106,7 @@
                         alert("erreur 500: veuillez recommencer")
                     }
                 },
-            }); 
+            });
         }
     </script>
 
