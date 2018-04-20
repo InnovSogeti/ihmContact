@@ -5,12 +5,11 @@
 <?php include('common/header.php'); ?>
     <div class="container">
         <h1>Liste des visiteurs du salon :</h1>
-        </br>
         <div id="list">
         </div>
     </div>
 
-    <?php 
+    <?php
         $url = 'localhost:8000/visiteur/aff/' . $_SESSION['id_salon'];
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

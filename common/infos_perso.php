@@ -43,6 +43,12 @@
     <label for="viadeo">Viadeo</label>
     <input type="text" class="form-control" name="viadeo" placeholder="Viadeo">
 </div>
+
+<div class="form-group">
+    <label for="autre">Autres informations</label>
+    <!-- <input type="textarea" class="form-control" name="autre" placeholder="autre"> -->
+    <textarea type="textarea" class="form-control" name="autre" cols="80" maxlength="500"></textarea>
+</div>
 <!--
 <div class="form-group">
     <label>A quoi avez-vous participé ?</label>
