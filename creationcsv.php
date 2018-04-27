@@ -12,19 +12,18 @@ $file = fopen($chemin, 'w');
 // les problèmes d'affichage des caractères internationaux (les accents par exemple)
 fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 // Boucle foreach qui ajoute chaque ligne au fichiercsv
-// var_dump(array_keys($json[0]));
 $header = "";
 foreach ($json[0] as $key => $value) {
-  $header = $header . ";" .$key;
+  $header = $header.$delimiteur.$key;
 }
 fwrite($file, $header."\n");
 $sizejson = count($json);
 for ($i=0; $i < $sizejson ; $i++) {
-  $val = "";
+  $ret= "";
   foreach ($json[$i] as $key => $value) {
-    $val = $val . ";" .str_replace(';', ",", json_encode($value, JSON_HEX_TAG));
+    $ret= $ret. ";" .str_replace(';', ",", json_encode($value, JSON_HEX_TAG));
   }
-  fwrite($file, $val."\n");
+  fwrite($file, $ret."\n");
 }
 fclose($file);
 

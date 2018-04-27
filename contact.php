@@ -18,7 +18,7 @@
 ?>
     <div class="container">
         <h1>
-            <select name="salons" size="1" onchange="changeSalon(this.value)">
+            <select id ="salon" class="btn btn-lg btn-primary btn-block" name="salons"  size="1" onchange="changeSalon(this.value)">
             <?php
             foreach($listeSalonsObj as $data){
                 $selected='';
@@ -41,10 +41,15 @@
       </br>
         </div>
         <div class="container">
+
+
           <form class="" action="creationcsv.php" method="post">
-            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
+              <input id = "csv" class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
           </form>
+
+
         </div>
+
     <?php
         if(isset($_GET['id_salon'])){
             if($_GET['id_salon'] == 'all'){
@@ -88,8 +93,15 @@
             }
             i++;
         }
+        if (i == 0) {
+          document.getElementById("csv").style.visibility = "hidden";
+        }
+        else {
+          document.getElementById("csv").style.visibility = "visible";
+        }
         visiteurs = visiteurs + "</table>"
         document.getElementById("list").innerHTML += visiteurs;
+
         function changeSalon(idSalon) {
             window.location.href="/contact.php?id_salon="+idSalon;
         }
