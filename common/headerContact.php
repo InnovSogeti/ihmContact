@@ -1,5 +1,5 @@
-<?php 
-    include('common/header.php'); 
+<?php
+    include('common/header.php');
     if(isset($_GET['id_salon'])){
         if($_GET['id_salon']=='all'){
             //$_SESSION['nom_salon']='all';
@@ -21,11 +21,11 @@
             if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
                 die('error occured: ' . $decoded->response->errormessage);
             }
-            
+
             $_SESSION['nom_salon']=$salonSelect->{'nom'};;
         }
     }else{
-        header("Location: /salon.php");
+        header("Location: /authentification.php");
     }
 ?>
 <body>
@@ -47,7 +47,7 @@
             <div>
                 <font color="white">
                     <a style="color:white;text-decoration:none;" href="/salon.php" target="">
-                    <h1 id="title"><?php 
+                    <h1 id="title"><?php
                     if(isset($_SESSION['nom_salon'])){ //Si $var existe.
                         echo $_SESSION['nom_salon'];
                     }else{

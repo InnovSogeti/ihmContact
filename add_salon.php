@@ -72,7 +72,7 @@
                         alert("erreur 500: veuillez recommencer")
                     }
                 },
-            }); 
+            });
         };
         const form = document.getElementsByClassName('form-signin')[0];
         form.addEventListener('submit', handleFormSubmit);
