@@ -1,5 +1,5 @@
-<?php 
-    include('common/header.php'); 
+<?php
+    include('common/header.php');
     if(isset($_GET['id_salon'])){
         $_SESSION['id_salon']=$_GET['id_salon'];
     }
@@ -22,7 +22,7 @@
             </a>
             <div>
                 <font color="white">
-                    <h1 id="title"><?php 
+                    <h1 id="title"><?php
                         echo "Salons";
                     ?></h1>
                 </font>

@@ -13,6 +13,9 @@
         </div>
     </div>
     <?php
+        if (isset($_SESSION["groupe"])) {
+          echo $_SESSION["groupe"];
+        }
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -93,6 +96,7 @@
 
 
         function deleteSalon(idSalon){
+          if (confirm("Voulez-vous supprimer ce salon ?")) {
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
             $.ajax({
                 type: "DELETE",
@@ -107,6 +111,7 @@
                     }
                 },
             });
+          }
         }
     </script>
 
