@@ -9,7 +9,7 @@
             echo "Success";
         }
         else{ // Sinon
-            echo $_POST['groupe'];
+            echo "Failed";
         }
     }
 ?>

@@ -38,23 +38,33 @@
             });
         });
     </script>
-
-    <header>
-        <div class="head_all">
-            <a href="/" rel="nofollow" target="">
-                <img class="left" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti" width="30%">
-            </a>
-            <div>
-                <font color="white">
-                    <a style="color:white;text-decoration:none;" href="/salon.php" target="">
-                    <h1 id="title"><?php
+    <div class="container-fluid">
+        <div class="row" style="background-color: #ff6e46">
+            <div class="col-xs-7">
+                <h1 class="title"><?php
                     if(isset($_SESSION['nom_salon'])){ //Si $var existe.
                         echo $_SESSION['nom_salon'];
                     }else{
                         echo 'Salons';
                     }
-                    ?></h1></a>
-                </font>
+                ?></h1>
+            </div>
+            <div class="col-xs-5">
+                <a class="logo" href="/" rel="nofollow">
+                    <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
+                </a>
             </div>
         </div>
-    </header>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="hidden-xs col-md-2"></div>
+            <div class="col-xs-12 col-md-8">
+                <div style="padding-top: 10px">
+                    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                        <- Liste des salons
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
