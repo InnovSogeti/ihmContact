@@ -1,31 +1,39 @@
 <?php include('common/headerAuthentification.php'); ?>
 <div class="container">
-  <h2>Inscription</h2>
-<div class="row-element-set row-element-set-QRScanner">
-    <div id="all">
-        <img class="background" src="images/oser.png" alt="groupe Capgemini" width="50%">
-    </div>
-    </br>
-      <form class="form-signin">
-        <div class="row-element">
-            <div class="form-field form-field-memo">
-                <div class="FlexPanel form-field-input-panel">
-                  <div class="form-group">
-                      <label for="login">Login</label>
-                      <input type="text" class="form-control" name="login" placeholder="Prénom" id="login" required>
-                  </div>
-                  <div class="form-group">
-                      <label for="pwd">Mot de passe</label>
-                      <input type="password" class="form-control" name="pwd" placeholder="Prénom" id="pwd" required>
-                  </div>
+    <div class="row">
+            <div class="hidden-xs col-md-2"></div>
+            <div class="col-xs-12 col-md-8">
+    <h2>Inscription</h2>
+    <div class="row-element-set row-element-set-QRScanner">
+        <div id="all">
+            <img class="background" src="images/oser.png" alt="groupe Capgemini" width="100%">
+        </div>
+        </br>
+        <form class="form-signin">
+            <div class="row-element">
+                <div class="form-field form-field-memo">
+                    <div class="FlexPanel form-field-input-panel">
+                    <div class="form-group">
+                        <label for="login">Login</label>
+                        <input type="text" class="form-control" name="login" placeholder="Prénom" id="login" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Mot de passe</label>
+                        <input type="password" class="form-control" name="pwd" placeholder="Prénom" id="pwd" required>
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
-      </form>
-</br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+        </form>
+    </br>
+    </div>
+    </div>
+		<div class="hidden-xs col-md-2"></div>
+    </div>
 </div>
-</div>
+
+
 
 </br></br>
 
@@ -60,23 +68,22 @@
             contentType: "application/json; charset=utf-8",
             data : json_form,
             success : function(result) {
-            console.log(result);
                 $.post(
                     'connexion.php',
                     {
                         groupe : result.groupe,
                     },
 
-           function(data){
-               if(data == 'Success'){
-                      window.location.href="/salon.php";
-               }
-               else{
-                  alert("Erreur");
-               }
-           },
+                    function(data){
+                       if(data == 'Success'){
+                              window.location.href="/salon.php";
+                       }
+                       else{
+                          console.log("err;");
+                       }
+                    },
                     'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
-                 );
+                );
             },
         });
     };

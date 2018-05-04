@@ -36,19 +36,15 @@
             </select>
         </h1>
         </br>
-            <div id="list">
-        </div>
-      </br>
-        </div>
-        <div class="container">
-
+        <div id="list"> </div>
+        </br>
 
           <form class="" action="creationcsv.php" method="post">
               <input id = "csv" class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
           </form>
 
 
-        </div>
+    </div>
 
     <?php
         if(isset($_GET['id_salon'])){
