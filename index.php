@@ -4,12 +4,12 @@
     <div class="row">
 		<div class="hidden-xs col-md-2"></div>
 		<div class="col-xs-12 col-md-8">
-        <div id="all">
-            <img class="background" src="images/oser.png" alt="groupe Capgemini" width="100%">
-        </div>
+            <div id="all">
+                <img class="background" src="images/oser.png" alt="groupe Capgemini" width="100%">
+            </div>
             <form class="form-signin">
                 <div class="form-group" id="form">
-                    <input type="text" class="form-control" name="id_salon" value="<?php $_SESSION['id_salon'] ?>" style='visibility:hidden;display:none'>
+                    <input type="hidden" name="id_salon" value="<?php echo $_SESSION['id_salon'] ?>">
                     <?php include('common/infos_perso.php'); ?>
                     <?php include('common/infos_competences.php'); ?>
                     <div class="form-group">
