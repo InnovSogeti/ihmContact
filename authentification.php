@@ -1,4 +1,5 @@
-<?php include('common/headerAuthentification.php'); ?>
+<?php include('common/headerAuthentification.php');?>
+
 <div class="container">
     <div class="row">
             <div class="hidden-xs col-md-2"></div>

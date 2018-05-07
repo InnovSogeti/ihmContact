@@ -1,4 +1,17 @@
 <?php include('common/headerContact.php'); ?>
+
+<div class="container">
+    <div class="row">
+         <div style="padding-top: 10px">
+             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+             </a>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="./javascripts/scannedText.js"></script>
 <div class="container">
     <div class="row">

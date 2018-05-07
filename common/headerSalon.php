@@ -20,13 +20,12 @@
             <div class="row" style="background-color: #ff6e46">
                 <div class="col-xs-7">
                     <h1 class="title"><?php
-                            echo 'Salon';
-                    ?></h1>
+                            echo 'Salon';?></h1>
+
+                    <a href="./deconnect.php"><button class="btn btn-success">Se déconnecter </button></a>
                 </div>
                 <div class="col-xs-5">
-                    <a class="logo" href="/" rel="nofollow">
                         <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
-                    </a>
                 </div>
             </div>
         </div>

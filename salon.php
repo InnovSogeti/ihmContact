@@ -1,5 +1,8 @@
-<?php include('common/headerSalon.php'); ?>
+<?php 
+include('common/headerSalon.php');
+ ?>
     </br>
+    <?php require('control_session.php'); ?>        
     <div class="container">
         <a href="add_salon.php" rel="nofollow" target="">
             <button type="button" class="btn btn-success">Ajouter un salon</button>
@@ -69,6 +72,7 @@
                 html += "</div>";
                 html += "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
                 html += "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\" onclick=\"afficherContactsSalon('"+listeSalons[i]._id+"')\">Afficher la liste des visiteurs</button>"
+                // html += "<button type=\"submit\" name=\"sub_update\" class=\"btn btn-success btn-lg btn-block\" onclick=\"modifierSalon('"+listeSalons[i]._id+"')\">Modifier</button>"
                 html += "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
 
                 html += "</div></div></div>";
@@ -108,4 +112,4 @@
         }
     </script>
 
-<?php include('common/footer.php'); ?>
+<?php include('common/footer.php'); 

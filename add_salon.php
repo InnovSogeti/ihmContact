@@ -1,6 +1,17 @@
 <?php include('common/headerSalon.php'); ?>
+<?php require('control_session.php'); ?>
+
     </br>
+    
     <div class="container">
+    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+    </a>
+    <div class="row">
+		<div class="hidden-xs col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
         <form class="form-signin">
             <div class="form-group">
                 <label for="ville_salon">Ville du salon *</label>
@@ -33,6 +44,9 @@
             </br>
             </br>
         </form>
+        </div>
+		<div class="hidden-xs col-md-2"></div>
+    </div>
     </div>
     <script>
         /**

@@ -21,9 +21,7 @@
                     ?></h1>
                 </div>
                 <div class="col-xs-5">
-                    <a class="logo" href="/" rel="nofollow">
                         <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
-                    </a>
                 </div>
             </div>
         </div>
