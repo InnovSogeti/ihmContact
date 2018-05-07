@@ -1,5 +1,18 @@
 <?php include('common/headerContact.php'); ?>
+<?php require('control_session.php'); ?>
 
+
+<div class="container">
+    <div class="row">
+         <div style="padding-top: 10px">
+             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+             </a>
+        </div>
+    </div>
+</div>
 <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);

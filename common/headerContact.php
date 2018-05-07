@@ -25,7 +25,7 @@
             $_SESSION['nom_salon']=$salonSelect->{'nom'};;
         }
     }else{
-        header("Location: /authentification.php");
+        header("Location: /index.php?id_salon=5ad489fff469632ba4aa0000");
     }
 ?>
 <body>
@@ -48,23 +48,18 @@
                         echo 'Salons';
                     }
                 ?></h1>
+                <?php
+                if (isset($_SESSION['groupe'])) {
+                    echo '<a href="./deconnect.php"><button class="btn btn-success">Se déconnecter </button></a>';
+                }
+                else {
+                    echo '<a href="./authentification.php"><button class="btn btn-success">Se connecter </button></a>';
+                }
+                ?>
             </div>
             <div class="col-xs-5">
-                <a class="logo" href="/" rel="nofollow">
                     <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
-                </a>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="hidden-xs col-md-2"></div>
-            <div class="col-xs-12 col-md-8">
-                <div style="padding-top: 10px">
-                    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                        <- Liste des salons
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
