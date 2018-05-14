@@ -21,5 +21,4 @@ if(file_exists($fichier_conf)) {
     -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="manifest.json" rel="stylesheet">
 </head>

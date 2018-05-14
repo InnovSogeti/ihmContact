@@ -68,24 +68,27 @@
             dataType : "json",
             contentType: "application/json; charset=utf-8",
             data : json_form,
-            success : function(result) {
+            success : function(result) { 
                 $.post(
                     'connexion.php',
                     {
                         groupe : result.groupe,
                     },
-
                     function(data){
-                       if(data == 'Success'){
-                              window.location.href="/salon.php";
-                       }
-                       else{
-                          console.log("err;");
-                       }
+                        if(data == 'Success'){
+                                window.location.href="/salon.php";
+                        }
+                        else{
+                            console.log("err;");
+                        }
                     },
                     'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
-                );
+                );        
+                 
             },
+            error : function(resultat, statut, erreur){
+                alert("Mauvais login ou mot de passe");          
+            }
         });
     };
     const form = document.getElementsByClassName('form-signin')[0];
