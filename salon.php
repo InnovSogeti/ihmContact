@@ -72,7 +72,7 @@ include('common/headerSalon.php');
                 html += "</div>";
                 html += "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
                 html += "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\" onclick=\"afficherContactsSalon('"+listeSalons[i]._id+"')\">Afficher la liste des visiteurs</button>"
-                // html += "<button type=\"submit\" name=\"sub_update\" class=\"btn btn-success btn-lg btn-block\" onclick=\"modifierSalon('"+listeSalons[i]._id+"')\">Modifier</button>"
+                html += "<button type=\"submit\" name=\"sub_update\" class=\"btn btn-success btn-lg btn-block\" onclick=\"updateSalon('"+listeSalons[i]._id+"')\">Modifier</button>"
                 html += "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
 
                 html += "</div></div></div>";
@@ -91,6 +91,9 @@ include('common/headerSalon.php');
             window.location.href="/contact.php?id_salon="+idSalon;
         }
 
+        function updateSalon(idSalon){
+            window.location.href="/updateSalon.php?id_salon="+idSalon;
+        }
 
         function deleteSalon(idSalon){
           if (confirm("Voulez-vous supprimer ce salon ?")) {
