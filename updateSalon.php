@@ -25,29 +25,21 @@
             die('error occured: ' . $decoded->response->errormessage);
         }
     ?>
-    <script> 
-    var salon_courant = <?php echo json_encode($saloncourant, JSON_HEX_TAG); ?>;
-    var nom = salon_courant.nom;
-    var ville = salon_courant.ville;
-    var description = salon_courant.description;
-
-    </script>
-
     <div class="row">
 		<div class="hidden-xs col-md-2"></div>
 		<div class="col-xs-12 col-md-8">
         <form class="form-signin">
             <div class="form-group">
                 <label for="ville">Ville du salon *</label>
-                <input type="text" class="form-control" name="ville" placeholder="ville du salon" required>
+                <input id = "ville" type="text" class="form-control" name="ville" placeholder="ville du salon" value = "" required>
             </div>
             <div class="form-group">
                 <label for="nom">Nom du salon *</label>
-                <input type="text" class="form-control" name="nom" placeholder="nom du salon" required>
+                <input id="nom_salon" type="text" class="form-control" name="nom" placeholder="nom du salon" required>
             </div>
             <div class="form-group">
                 <label for="description">Description du salon:</label>
-                <textarea class="form-control" rows="3" name="description"></textarea>
+                <textarea id = "description" class="form-control" rows="3" name="description"></textarea>
             </div>
             <div class="form-group">
             <label for="logo">logo</label>
@@ -56,11 +48,11 @@
             </div>
             <div class="form-group">
                 <label for="date_debut">Du : *</label>
-                <input type="date" class="form-control" name="date_debut" required>
+                <input id="date_debut" type="date" class="form-control" name="date_debut" required>
             </div>
             <div class="form-group">
                 <label for="date_fin">Au : *</label>
-                <input type="date" class="form-control" name="date_fin" required>
+                <input id = "date_fin" type="date" class="form-control" name="date_fin" required>
             </div>
             <button type="submit" class="btn btn-success btn-lg btn-block">Valider</button>
             </br>
@@ -72,7 +64,17 @@
 		<div class="hidden-xs col-md-2"></div>
     </div>
     </div>
-    <script>
+    <script> 
+        var salon_courant = <?php echo json_encode($saloncourant, JSON_HEX_TAG); ?>;
+        document.getElementById("ville").value = salon_courant.ville;
+        document.getElementById("nom_salon").value = salon_courant.nom;
+        document.getElementById("description").value = salon_courant.description;
+        document.getElementById("date_debut").value = salon_courant.date_debut;
+        document.getElementById("date_fin").value = salon_courant.date_fin;
+
+
+    </script>
+    <script> 
         /**
          * permet de ne pas save les champs vide
          */
@@ -106,14 +108,10 @@
                 contentType: "application/json; charset=utf-8",
                 data : json_form,
                 success : function(result) {
-                    console.log(result);
-                    if (result == 200) {
-                        window.location.pathname="/salon.php";
-                    }
-                    else {
-                        alert("erreur 500: veuillez recommencer")
-                    }
                 },
+                complete : function(resultat, statut){
+                    window.location.pathname="/salon.php";
+                }
             });
         };
         const form = document.getElementsByClassName('form-signin')[0];
