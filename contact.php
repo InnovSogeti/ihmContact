@@ -16,6 +16,9 @@
 <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
@@ -68,6 +71,9 @@
             }
         }
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {

@@ -71,11 +71,17 @@
             const data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
+            var token = "<?php echo $_SESSION['token'];?>";
+
             $.ajax({
+                
                 type: "POST",
                 url: url+'/salon/add',
+                contentType: "application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
                 dataType : "json",
-                contentType: "application/json; charset=utf-8",
                 data : json_form,
                 success : function(result) {
                     console.log(result);
@@ -86,6 +92,14 @@
                         alert("erreur 500: veuillez recommencer")
                     }
                 },
+                error : function(resultat, statut, erreur){
+                    console.log(resultat);
+                    console.log(token);
+                                      
+                },
+                // complete : function(resultat, statut){
+                //         // console.log(resultat);
+                // }
             });
         };
         const form = document.getElementsByClassName('form-signin')[0];

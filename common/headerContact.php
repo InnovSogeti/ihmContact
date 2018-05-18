@@ -9,6 +9,7 @@
             //Interrogation de la ressource Salon pour recuperer le nom et les dates du salon
             $url = 'localhost:8000/salon/'.$_SESSION['id_salon'];
             $curl = curl_init($url);
+            
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             $curl_response = curl_exec($curl);
             if ($curl_response === false) {
