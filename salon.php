@@ -2,7 +2,8 @@
 include('common/headerSalon.php');
  ?>
     </br>
-    <?php require('control_session.php'); ?>        
+    <?php require('control_session.php');?>   
+        
     <div class="container">
         <a href="add_salon.php" rel="nofollow" target="">
             <button type="button" class="btn btn-success">Ajouter un salon</button>
@@ -14,7 +15,11 @@ include('common/headerSalon.php');
     <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
             $info = curl_getinfo($curl);
@@ -96,11 +101,15 @@ include('common/headerSalon.php');
         }
 
         function deleteSalon(idSalon){
+          var token = "<?php echo $_SESSION['token'];?>";
           if (confirm("Voulez-vous supprimer ce salon ?")) {
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
             $.ajax({
                 type: "DELETE",
                 url: url+'/salon/'+idSalon,
+                headers:{
+                    "x-access-token": token
+                },
                 success : function(result) {
                     console.log(result);
                     if (result == 200) {

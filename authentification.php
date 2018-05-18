@@ -64,7 +64,7 @@
 
         $.ajax({
             type: "POST",
-            url: url+'/user/checkPassword',
+            url: url+'/authenticate',
             dataType : "json",
             contentType: "application/json; charset=utf-8",
             data : json_form,
@@ -73,20 +73,21 @@
                     'connexion.php',
                     {
                         groupe : result.groupe,
+                        token : result.token,
                     },
                     function(data){
                         if(data == 'Success'){
                                 window.location.href="/salon.php";
                         }
                         else{
-                            console.log("err;");
+                            console.log("err");
                         }
                     },
                     'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
                 );        
                  
             },
-            error : function(resultat, statut, erreur){
+            error : function(resultat, statut, erreur){                
                 alert("Mauvais login ou mot de passe");          
             }
         });

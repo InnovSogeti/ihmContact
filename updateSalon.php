@@ -1,5 +1,6 @@
 <?php include('common/headerSalon.php'); ?>
 <?php require('control_session.php'); ?>
+<?php header('Access-Control-Allow-Origin: *');?>
 
     </br>
     <?php $_SESSION['id_salon']=$_GET['id_salon']; ?>
@@ -12,6 +13,9 @@
     <?php
         $url = 'localhost:8000/salon/'.$_SESSION['id_salon'];
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
@@ -75,6 +79,8 @@
 
     </script>
     <script> 
+    var token = "<?php echo $_SESSION['token'] ;?>";
+
         /**
          * permet de ne pas save les champs vide
          */
@@ -96,22 +102,30 @@
         }, {});
         const handleFormSubmit = event => {
             event.preventDefault();
-            const data = formToJSON(form.elements);
+            var data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
             console.log(json_form);
             
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/salon/update/".$_SESSION['id_salon'] ?>" ;
+            
+            var token = "<?php echo $_SESSION['token'];?>";
+                
             $.ajax({
                 type: "POST",
                 url: url,
-                dataType : "json",
-                contentType: "application/json; charset=utf-8",
+                contentType :"application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
+                dataType : "json",                
                 data : json_form,
-                success : function(result) {
-                },
-                complete : function(resultat, statut){
+                
+                complete : function(resultat, statut){                 
+                    console.log(resultat);
+                    
                     window.location.pathname="/salon.php";
                 }
+                
             });
         };
         const form = document.getElementsByClassName('form-signin')[0];
