@@ -1,5 +1,5 @@
-<?php 
-    include('common/header.php'); 
+<?php
+    include('common/header.php');
     if(isset($_GET['id_salon'])){
         $_SESSION['id_salon']=$_GET['id_salon'];
     }
@@ -16,16 +16,17 @@
     </script>
 
     <header>
-        <div class="head_all">
-            <a href="/" rel="nofollow" target="">
-                <img class="left" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti" width="30%">
-            </a>
-            <div>
-                <font color="white">
-                    <h1 id="title"><?php 
-                        echo "Salons";
-                    ?></h1>
-                </font>
+        <div class="container-fluid">
+            <div class="row" style="background-color: #ff6e46">
+                <div class="col-xs-7">
+                    <h1 class="title"><?php
+                            echo 'Salon';?></h1>
+
+                    <a href="./deconnect.php"><button class="btn btn-success">Se déconnecter </button></a>
+                </div>
+                <div class="col-xs-5">
+                        <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
+                </div>
             </div>
         </div>
     </header>

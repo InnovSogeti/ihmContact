@@ -1,21 +1,25 @@
-<?php include('common/headerSalon.php'); ?>
+<?php 
+include('common/headerSalon.php');
+ ?>
     </br>
+    <?php require('control_session.php');?>   
+        
     <div class="container">
         <a href="add_salon.php" rel="nofollow" target="">
             <button type="button" class="btn btn-success">Ajouter un salon</button>
         </a>
-        <div id="explication">
-        </div>
-        <div id="result">
-        </div>
-        </br>
-        <div class="panel-group" id="accordion">
-        </div>
+        <div id="explication"></div>
+        <div id="result"></div>
+        <div class="panel-group" id="accordion"></div>
     </div>
     <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
             $info = curl_getinfo($curl);
@@ -45,38 +49,39 @@
         }
         while (listeSalons[i]) {
             if (listeSalons[i].nom != undefined) {
-                var htmlSalons = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\"href=\"#collapse";
+                var html = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\"href=\"#collapse";
                 var liste;
 
-                htmlSalons = htmlSalons + count;
-                htmlSalons = htmlSalons + "\">";
-                htmlSalons = htmlSalons + listeSalons[i].nom;
-                htmlSalons = htmlSalons + "</a></h4></div><div id=\"collapse"
-                htmlSalons = htmlSalons + count;
+                html += count;
+                html += "\">";
+                html += listeSalons[i].nom;
+                html += "</a></h4></div><div id=\"collapse"
+                html += count;
                 if (count == 1)
-                    htmlSalons = htmlSalons + "\" class=\"panel-collapse collapse in\"><div class=\"panel-body\">";
+                    html += "\" class=\"panel-collapse collapse in\"><div class=\"panel-body\">";
                 else
-                    htmlSalons = htmlSalons + "\" class=\"panel-collapse collapse\"><div class=\"panel-body\">";
-                htmlSalons = htmlSalons + "Ville : ";
-                htmlSalons = htmlSalons + listeSalons[i].ville;
-                htmlSalons = htmlSalons + "</br>Description : ";
-                htmlSalons = htmlSalons + listeSalons[i].description;
-                htmlSalons = htmlSalons + "</br>Date de début : ";
-                htmlSalons = htmlSalons + listeSalons[i].date_debut;
-                htmlSalons = htmlSalons + "</br>Date de fin : ";
-                htmlSalons = htmlSalons + listeSalons[i].date_fin;
+                    html += "\" class=\"panel-collapse collapse\"><div class=\"panel-body\">";
+                html += "Ville : ";
+                html += listeSalons[i].ville;
+                html += "</br>Description : ";
+                html += listeSalons[i].description;
+                html += "</br>Date de début : ";
+                html += listeSalons[i].date_debut;
+                html += "</br>Date de fin : ";
+                html += listeSalons[i].date_fin;
 
-                htmlSalons = htmlSalons + "<div class=\"form-group\">"
-                htmlSalons = htmlSalons + "<input id=\"id_salon\" type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"";
-                htmlSalons = htmlSalons + listeSalons[i]._id;
-                htmlSalons = htmlSalons + "\" style='visibility:hidden;display:none'>"
-                htmlSalons = htmlSalons + "</div>";
-                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
-                htmlSalons = htmlSalons + "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\" onclick=\"afficherContactsSalon('"+listeSalons[i]._id+"')\">Afficher la liste des visiteurs</button>"
-                htmlSalons = htmlSalons + "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
+                html += "<div class=\"form-group\">"
+                html += "<input id=\"id_salon\" type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"";
+                html += listeSalons[i]._id;
+                html += "\" style='visibility:hidden;display:none'>"
+                html += "</div>";
+                html += "<button type=\"submit\" name=\"sub_select\" class=\"btn btn-success btn-lg btn-block\" onclick=\"choisirSalon('"+listeSalons[i]._id+"')\">Choisir</button>"
+                html += "<button type=\"submit\" name=\"sub_contact\" class=\"btn btn-success btn-lg btn-block\" onclick=\"afficherContactsSalon('"+listeSalons[i]._id+"')\">Afficher la liste des visiteurs</button>"
+                html += "<button type=\"submit\" name=\"sub_update\" class=\"btn btn-success btn-lg btn-block\" onclick=\"updateSalon('"+listeSalons[i]._id+"')\">Modifier</button>"
+                html += "<button type=\"submit\" id=\"del_"+listeSalons[i]._id+"\" class=\"btn btn-success btn-lg btn-block\" onclick=\"deleteSalon('"+listeSalons[i]._id+"')\">Supprimer</button>"
 
-                htmlSalons = htmlSalons + "</div></div></div>";
-                document.getElementById("accordion").innerHTML += htmlSalons;
+                html += "</div></div></div>";
+                document.getElementById("accordion").innerHTML += html;
 
                 count++;
             }
@@ -91,12 +96,20 @@
             window.location.href="/contact.php?id_salon="+idSalon;
         }
 
+        function updateSalon(idSalon){
+            window.location.href="/updateSalon.php?id_salon="+idSalon;
+        }
 
         function deleteSalon(idSalon){
+          var token = "<?php echo $_SESSION['token'];?>";
+          if (confirm("Voulez-vous supprimer ce salon ?")) {
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
             $.ajax({
                 type: "DELETE",
                 url: url+'/salon/'+idSalon,
+                headers:{
+                    "x-access-token": token
+                },
                 success : function(result) {
                     console.log(result);
                     if (result == 200) {
@@ -107,7 +120,8 @@
                     }
                 },
             });
+          }
         }
     </script>
 
-<?php include('common/footer.php'); ?>
+<?php include('common/footer.php'); 

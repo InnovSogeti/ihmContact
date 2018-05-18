@@ -1,23 +1,39 @@
 <?php include('common/headerContact.php'); ?>
-    <script type="text/javascript" src="./javascripts/scannedText.js"></script>
-    <div class="container">
-        <form class="form-signin">
-            <div class="form-group" id="form">
-                <?php
-                    $fullInput = "<div class=\"form-group\"><input type=\"text\" class=\"form-control\" name=\"id_salon\" value=\"" . $_SESSION['id_salon'] . "\" style='visibility:hidden;display:none'></div>";
-                    echo $fullInput;
-                ?>
-                <?php include('common/infos_perso.php'); ?>
-                <?php include('common/infos_competences.php'); ?>
-            </div>
-            </br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
-            </br>
-            <label>* : Champs obligatoire</label>
-            </br>
-            </br>
-        </form>
+
+<div class="container">
+    <div class="row">
+         <div style="padding-top: 10px">
+             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+             </a>
+        </div>
     </div>
+</div>
+
+<script type="text/javascript" src="./javascripts/scannedText.js"></script>
+<div class="container">
+    <div class="row">
+		<div class="hidden-xs col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
+            <div id="all">
+                <img class="background" src="images/oser.png" alt="groupe Capgemini" width="100%">
+            </div>
+            <form class="form-signin">
+                <div class="form-group" id="form">
+                    <input type="hidden" name="id_salon" value="<?php echo $_SESSION['id_salon'] ?>">
+                    <?php include('common/infos_perso.php'); ?>
+                    <?php include('common/infos_competences.php'); ?>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+		</div>
+		<div class="hidden-xs col-md-2"></div>
+    </div>
+</div>
 
     <script>
         /**

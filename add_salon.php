@@ -1,6 +1,17 @@
 <?php include('common/headerSalon.php'); ?>
+<?php require('control_session.php'); ?>
+
     </br>
+    
     <div class="container">
+    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+    </a>
+    <div class="row">
+		<div class="hidden-xs col-md-2"></div>
+		<div class="col-xs-12 col-md-8">
         <form class="form-signin">
             <div class="form-group">
                 <label for="ville_salon">Ville du salon *</label>
@@ -33,6 +44,9 @@
             </br>
             </br>
         </form>
+        </div>
+		<div class="hidden-xs col-md-2"></div>
+    </div>
     </div>
     <script>
         /**
@@ -57,11 +71,17 @@
             const data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
+            var token = "<?php echo $_SESSION['token'];?>";
+
             $.ajax({
+                
                 type: "POST",
                 url: url+'/salon/add',
+                contentType: "application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
                 dataType : "json",
-                contentType: "application/json; charset=utf-8",
                 data : json_form,
                 success : function(result) {
                     console.log(result);
@@ -72,7 +92,15 @@
                         alert("erreur 500: veuillez recommencer")
                     }
                 },
-            }); 
+                error : function(resultat, statut, erreur){
+                    console.log(resultat);
+                    console.log(token);
+                                      
+                },
+                // complete : function(resultat, statut){
+                //         // console.log(resultat);
+                // }
+            });
         };
         const form = document.getElementsByClassName('form-signin')[0];
         form.addEventListener('submit', handleFormSubmit);

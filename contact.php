@@ -1,8 +1,24 @@
 <?php include('common/headerContact.php'); ?>
+<?php require('control_session.php'); ?>
 
+
+<div class="container">
+    <div class="row">
+         <div style="padding-top: 10px">
+             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
+                <?php if (isset($_SESSION['groupe'])) {
+                    echo "<- Liste des salons";
+                }?>
+             </a>
+        </div>
+    </div>
+</div>
 <?php
         $url = 'localhost:8000/salon';
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
@@ -36,19 +52,15 @@
             </select>
         </h1>
         </br>
-            <div id="list">
-        </div>
-      </br>
-        </div>
-        <div class="container">
-
+        <div id="list"> </div>
+        </br>
 
           <form class="" action="creationcsv.php" method="post">
               <input id = "csv" class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
           </form>
 
 
-        </div>
+    </div>
 
     <?php
         if(isset($_GET['id_salon'])){
@@ -59,6 +71,9 @@
             }
         }
         $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'x-access-token:'. $_SESSION['token'],
+        ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $curl_response = curl_exec($curl);
         if ($curl_response === false) {
