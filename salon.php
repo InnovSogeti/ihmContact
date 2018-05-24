@@ -2,11 +2,13 @@
 include('common/headerSalon.php');
  ?>
     </br>
-    <?php require('control_session.php');?>   
-        
+    <?php require('control_session.php');?>      
     <div class="container">
         <a href="add_salon.php" rel="nofollow" target="">
-            <button type="button" class="btn btn-success">Ajouter un salon</button>
+            <button type="button" class="btn btn-lg btn-primary btn-block">Ajouter un salon</button>
+        </a> <br>
+        <a href="updateUser.php" rel="nofollow" target="">
+            <button type="button" class="btn btn-lg btn-primary btn-block">Gestion des utilisateurs</button>
         </a>
         <div id="explication"></div>
         <div id="result"></div>
