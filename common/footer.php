@@ -11,8 +11,8 @@
                         Les données archivées doivent être supprimées lorsque </br>
                         leur archivage n’a plus raison d’être.</p>
                     </br>
-                    <a href="config.php">Login</a></br>
-                    <a href="login.php"> salon</a>
+                    <!-- <a href="config.php">Login</a></br>
+                    <a href="login.php"> salon</a> -->
                 </div>
                 <div class="col-sm-4">
                     <p>

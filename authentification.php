@@ -16,11 +16,11 @@
                     <div class="FlexPanel form-field-input-panel">
                     <div class="form-group">
                         <label for="login">Login</label>
-                        <input type="text" class="form-control" name="login" placeholder="Prénom" id="login" required>
+                        <input type="text" class="form-control" name="login" placeholder="Login" id="login" required>
                     </div>
                     <div class="form-group">
                         <label for="pwd">Mot de passe</label>
-                        <input type="password" class="form-control" name="pwd" placeholder="Prénom" id="pwd" required>
+                        <input type="password" class="form-control" name="pwd" placeholder="Mot de passe" id="pwd" required>
                     </div>
                     </div>
                 </div>
@@ -69,6 +69,7 @@
             contentType: "application/json; charset=utf-8",
             data : json_form,
             success : function(result) { 
+            console.log(result);
                 $.post(
                     'connexion.php',
                     {
@@ -80,7 +81,7 @@
                                 window.location.href="/salon.php";
                         }
                         else{
-                            console.log("err");
+                            alert("Mauvais login ou mot de passe");
                         }
                     },
                     'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
@@ -88,7 +89,7 @@
                  
             },
             error : function(resultat, statut, erreur){                
-                alert("Mauvais login ou mot de passe");          
+                alert("Erreur");          
             }
         });
     };
