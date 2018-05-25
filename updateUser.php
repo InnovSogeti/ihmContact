@@ -88,8 +88,10 @@
     </div>
     </div>
     <?php
+    if (isset($_GET['id_user'])) {
+    
         $_SESSION['id_user']=$_GET['id_user'];
-
+    }
         $url = 'localhost:8000/user/'. $_SESSION['id_user'];
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
@@ -107,6 +109,7 @@
         if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
             die('error occured: ' . $decoded->response->errormessage);
         }
+    
 ?>
     <script> 
         function changeUser(id_user) {          
