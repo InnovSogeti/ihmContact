@@ -1,34 +1,25 @@
 <?php include('common/headerSalon.php'); ?>
-<?php require('control_session.php'); ?>
 <?php header('Access-Control-Allow-Origin: *');?>
 
+    <script>
+        function extractUrlParams(){   
+            var t = location.search.substring(1).split('?');
+            var f = [];
+            for (var i=0; i<t.length; i++){
+                var x = t[ i ].split('=');
+                f[x[0]]=x[1];
+            }
+            return f;
+        }
+            var listeparam = extractUrlParams();
+            var token = listeparam.token;  
+            var idSalon = listeparam.id_salon;            
+    </script>
     </br>
-    <?php $_SESSION['id_salon']=$_GET['id_salon']; ?>
     <div class="container">
-    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                <?php if (isset($_SESSION['groupe'])) {
-                    echo "<- Liste des salons";
-                }?>
+    <a style="color:#ff6e46; font-size: 1.3em" onclick="retourlistesalons()">
+        <button><- Liste des salons </button>
     </a>
-    <?php
-        $url = 'localhost:8000/salon/'.$_SESSION['id_salon'];
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'x-access-token:'. $_SESSION['token'],
-        ));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-        }
-        curl_close($curl);
-        $saloncourant = json_decode($curl_response);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-    ?>
     <div class="row">
 		<div class="hidden-xs col-md-2"></div>
 		<div class="col-xs-12 col-md-8">
@@ -69,17 +60,31 @@
     </div>
     </div>
     <script> 
-        var salon_courant = <?php echo json_encode($saloncourant, JSON_HEX_TAG); ?>;
-        document.getElementById("ville").value = salon_courant.ville;
-        document.getElementById("nom_salon").value = salon_courant.nom;
-        document.getElementById("description").value = salon_courant.description;
-        document.getElementById("date_debut").value = salon_courant.date_debut;
-        document.getElementById("date_fin").value = salon_courant.date_fin;
+    function retourlistesalons() {
+        window.location.href="/salon.php?token="+token
+    }
+    
+    var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
 
-
-    </script>
-    <script> 
-    var token = "<?php echo $_SESSION['token'] ;?>";
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: url+'/salon/'+ idSalon,
+            contentType :"application/json; charset=utf-8",
+            headers:{
+                "x-access-token": token
+            },
+            dataType : "json",                                
+            success : function(salon_courant) {
+                
+                document.getElementById("ville").value = salon_courant.ville;
+                document.getElementById("nom_salon").value = salon_courant.nom;
+                document.getElementById("description").value = salon_courant.description;
+                document.getElementById("date_debut").value = salon_courant.date_debut;
+                document.getElementById("date_fin").value = salon_courant.date_fin;
+            }
+        })
+    });
 
         /**
          * permet de ne pas save les champs vide
@@ -106,13 +111,11 @@
             var json_form = JSON.stringify(data, null, " ");
             console.log(json_form);
             
-            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/salon/update/".$_SESSION['id_salon'] ?>" ;
-            
-            var token = "<?php echo $_SESSION['token'];?>";
+            var url2= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/salon/update/"?>"+idSalon ;
                 
             $.ajax({
                 type: "POST",
-                url: url,
+                url: url2,
                 contentType :"application/json; charset=utf-8",
                 headers:{
                     "x-access-token": token
@@ -121,8 +124,6 @@
                 data : json_form,
                 
                 complete : function(resultat, statut){                 
-                    console.log(resultat);
-                    
                     window.location.pathname="/salon.php";
                 }
                 

@@ -1,8 +1,5 @@
 <?php
     include('common/header.php');
-    if(isset($_GET['id_salon'])){
-        $_SESSION['id_salon']=$_GET['id_salon'];
-    }
 ?>
 <body>
     <script>

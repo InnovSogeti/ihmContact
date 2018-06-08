@@ -1,126 +1,301 @@
 <?php include('common/headerContact.php'); ?>
-<?php require('control_session.php'); ?>
 
-
+<script>
+    function extractUrlParams(){   
+        var t = location.search.substring(1).split('?');
+        var f = [];
+        for (var i=0; i<t.length; i++){
+            var x = t[ i ].split('=');
+            f[x[0]]=x[1];
+        }
+        return f;
+    }
+    var listeparam = extractUrlParams();
+    var token = listeparam.token;  
+    var id_salon = listeparam.id_salon;
+    
+    function retourlistesalons() {
+        window.location.href="/salon.php?token="+token
+    }
+</script>
 <div class="container">
     <div class="row">
-         <div style="padding-top: 10px">
-             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                <?php if (isset($_SESSION['groupe'])) {
-                    echo "<- Liste des salons";
-                }?>
-             </a>
+        <div style="padding-top: 10px">
+            <a style="color:#ff6e46; font-size: 1.3em" onclick="retourlistesalons()">
+                    <button><- Liste des salons </button>
+            </a>
         </div>
     </div>
 </div>
-<?php
-        $url = 'localhost:8000/salon';
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'x-access-token:'. $_SESSION['token'],
-        ));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
+
+<script>
+
+$(document).ready(function () {
+    var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>"+'/salon';
+    console.log(url);
+    console.log(token);
+            
+    $.ajax({
+        type: "GET",
+        url: url,
+        contentType :"application/json; charset=utf-8",
+        headers:{
+            "x-access-token": token
+        },
+        dataType : "json",                                
+        success : function(salons) {
+            console.log(salons);
+              
+            var listeSalon = "<h1>";
+            var selected= '';
+            var i = 0;
+            listeSalon += "<select id = 'salon' class='btn btn-lg btn-primary btn-block' name='salons'  size='1' onchange='changeSalon(this.value)'>";
+            // listeUser += "<option value = 'adduser'> Ajouter un utilisateur </option>";
+            while (salons[i]) {
+                if (salons[i]) {
+                    selected= '';
+                    if (salons[i]._id == id_salon) {
+                        selected = 'selected'; 
+                    }
+                    listeSalon += "<option value ="+salons[i]._id+" "+selected+">"+salons[i].nom+"</option>";
+                }
+                i++;
+            }      
+            if (id_salon == "all"){
+                listeSalon += '<option value="all" selected >ALL</option><br/>';
+            }else{
+                listeSalon += '<option value="all" >ALL</option><br/>';
+            }         
+            listeSalon += "</select> </h1>"; 
+            document.getElementById("listeSalon").innerHTML += listeSalon;
         }
-        curl_close($curl);
-        $listeSalonsObj = json_decode($curl_response,true);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-?>
+    })
+})
+
+
+</script>
     <div class="container">
         <h1>
-            <select id ="salon" class="btn btn-lg btn-primary btn-block" name="salons"  size="1" onchange="changeSalon(this.value)">
-            <?php
-            foreach($listeSalonsObj as $data){
-                $selected='';
-                if(isset($_GET['id_salon']) && $data["_id"]==$_GET['id_salon']){
-                    $selected='selected';
-                }
-                echo '<option value="'.$data["_id"].'" '.$selected.'>'.$data["nom"].'</option><br/>';
-            }
-            if(isset($_GET['id_salon']) && $_GET['id_salon']=='all'){
-                echo '<option value="all" selected >ALL</option><br/>';
-            }else{
-                echo '<option value="all" >ALL</option><br/>';
-            }
-            ?>
-            </select>
+        <div id="listeSalon"> </div>
         </h1>
         </br>
         <div id="list"> </div>
         </br>
 
-          <form class="" action="creationcsv.php" method="post">
+          <form class="form-signin" method="post">
               <input id = "csv" class="btn btn-lg btn-primary btn-block" type="submit" value="Télécharger au format csv !">
           </form>
 
 
     </div>
-
-    <?php
-        if(isset($_GET['id_salon'])){
-            if($_GET['id_salon'] == 'all'){
-                $url = 'localhost:8000/contact';
-            }else{
-                $url = 'localhost:8000/contact/salon/'. $_GET['id_salon'];
+    <script>
+        $(document).ready(function () {
+            if (id_salon == "all") {
+                var url = "http://localhost:8000/contact"
             }
-        }
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'x-access-token:'. $_SESSION['token'],
-        ));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-        }
-        curl_close($curl);
-        $decoded = json_decode($curl_response);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-        $_SESSION['visiteurs'] = $decoded;
-    ?>
+            else{
+                var url = "http://localhost:8000/contact/salon/"+ id_salon;
+            }
+                    
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType :"application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
+                dataType : "json",                                
+                success : function(Listecontacts) {
+                    var i = 0;
+                    var visiteurs = "<table><tr><th>Nom</th><th>Prenom</th><th>Numéro de téléphone</th><th>Email</th></tr>";
+
+                    while (Listecontacts[i]) {
+                        if (Listecontacts[i]) {
+                            visiteurs = visiteurs + "<tr><td>";
+                            visiteurs = visiteurs + Listecontacts[i].nom;
+                            visiteurs = visiteurs + "</td><td>";
+                            visiteurs = visiteurs + Listecontacts[i].prenom;
+                            visiteurs = visiteurs + "</td><td>";
+                            visiteurs = visiteurs + Listecontacts[i].telephone;
+                            visiteurs = visiteurs + "</td><td>";
+                            visiteurs = visiteurs + Listecontacts[i].email;
+                            visiteurs = visiteurs + "</td></tr>";
+                        }
+                        i++;
+                    }
+                    if (i == 0) {
+                    document.getElementById("csv").style.visibility = "hidden";
+                    }
+                    else {
+                    document.getElementById("csv").style.visibility = "visible";
+                    }
+                    visiteurs = visiteurs + "</table>"
+                    document.getElementById("list").innerHTML += visiteurs;
+                }
+            })
+        })
+    function changeSalon(idSalon) {
+        window.location.href="/contact.php?token="+token+"?id_salon="+idSalon;
+    }
+    </script>
+
+
+
 
     <script>
-        var list = <?php echo json_encode($_SESSION['visiteurs'], JSON_HEX_TAG); ?>;
-        var i = 0;
-        var visiteurs = "<table><tr><th>Nom</th><th>Prenom</th><th>Numéro de téléphone</th><th>Email</th></tr>";
-
-        while (list[i]) {
-            if (list[i]) {
-                visiteurs = visiteurs + "<tr><td>";
-                visiteurs = visiteurs + list[i].nom;
-                visiteurs = visiteurs + "</td><td>";
-                visiteurs = visiteurs + list[i].prenom;
-                visiteurs = visiteurs + "</td><td>";
-                visiteurs = visiteurs + list[i].telephone;
-                visiteurs = visiteurs + "</td><td>";
-                visiteurs = visiteurs + list[i].email;
-                visiteurs = visiteurs + "</td></tr>";
+        /**
+         * permet de ne pas save les champs vide
+         */
+        const isValidElement = element => {
+            return element.name && element.value;
+        };
+        const isValidValue = element => {
+            return (!['checkbox', 'radio'].includes(element.type) || element.checked);
+        };
+        const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+            if (isValidValue(element)) {
+                if (isCheckbox(element)) { data[element.name] = (data[element.name] || []).concat(element.value); } else {
+                    data[element.name] = element.value;
+                }
             }
-            i++;
-        }
-        if (i == 0) {
-          document.getElementById("csv").style.visibility = "hidden";
-        }
-        else {
-          document.getElementById("csv").style.visibility = "visible";
-        }
-        visiteurs = visiteurs + "</table>"
-        document.getElementById("list").innerHTML += visiteurs;
+            return data;
+        }, {});
+                    function exportCSVFile(headers, items, fileTitle) {
+                if (headers) {
+                    items.unshift(headers);
+                }
 
-        function changeSalon(idSalon) {
-            window.location.href="/contact.php?id_salon="+idSalon;
-        }
+                // Convert Object to JSON
+                var jsonObject = JSON.stringify(items);
+
+                var csv = this.convertToCSV(jsonObject);
+
+                var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, exportedFilenmae);
+                } else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", exportedFilenmae);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            }
+            function convertToCSV(objArray) {
+                var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+                var str = '';
+
+                for (var i = 0; i < array.length; i++) {
+                    // console.log(i);
+                    
+                    var line = '';
+                    for (var index in array[i]) {
+                        if (line != '') line += ';'  
+                        if (typeof array[i][index] == "string") {
+                            array[i][index]= (array[i][index]).replace(";", ",");
+                        }
+                       line += array[i][index];
+                        // console.log(array[i]);
+                        
+                    }
+                    
+                    
+                    str += line + '\r\n';                    
+                }
+                return str;
+            }
+            function exportCSVFile(headers, items, fileTitle) {
+                if (headers) {
+                    items.unshift(headers);
+                }
+
+                // Convert Object to JSON
+                var jsonObject = JSON.stringify(items);
+
+                var csv = this.convertToCSV(jsonObject);
+
+                var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, exportedFilenmae);
+                } else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", exportedFilenmae);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            }    
+        const handleFormSubmit = event => {
+            event.preventDefault();
+            const data = formToJSON(form.elements);
+            var json_form = JSON.stringify(data, null, " ");
+            console.log(json_form);
+
+            if (id_salon == "all") {
+                var url = "http://localhost:8000/contact"
+            }
+            else{
+                var url = "http://localhost:8000/contact/salon/"+ id_salon;
+            }
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType :"application/json; charset=utf-8",
+                headers:{
+                "x-access-token": token
+                },
+                dataType : "json",                                
+                success : function(items) {
+                var headers = {
+                    _id :"_id",
+                    prenom : "prenom",
+                    email : "Email",
+                    nom : "nom",
+                    telephone	: "tel",
+                    linkedin : "linkedin",
+                    viadeo : "viadeo",
+                    profil : "profil",
+                    metier : "metier",
+                    accepteReContacte	: "accepterecontact",
+                    id_salon : "idsalon",
+                    autre	: "autre",
+                    datePriseContact : "date"
+                };
+                var fileTitle = 'ListeContactjs';
+                
+                var csv = exportCSVFile(headers, items, fileTitle);             
+                
+                }
+            })
+        };
+        const form = document.getElementsByClassName('form-signin')[0];
+        form.addEventListener('submit', handleFormSubmit);
+        const reducerFunction = (data, element) => {
+            data[element.name] = element.value;
+            return (data);
+        };
+        const isCheckbox = element => element.type === 'checkbox';
+        const isMultiSelect = element => element.options && element.multiple;
     </script>
+
+
+
 
     <style>
         table {

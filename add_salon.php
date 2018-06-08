@@ -1,13 +1,28 @@
 <?php include('common/headerSalon.php'); ?>
-<?php require('control_session.php'); ?>
 
     </br>
-    
+    <script>
+        function extractUrlParams(){   
+        var t = location.search.substring(1).split('?');
+        var f = [];
+        for (var i=0; i<t.length; i++){
+            var x = t[ i ].split('=');
+            f[x[0]]=x[1];
+        }
+        return f;
+    }
+    var listeparam = extractUrlParams();
+    var token = listeparam.token;  
+    var id_salon = listeparam.id_salon;
+
+    function retourlistesalons() {
+        window.location.href="/salon.php?token="+token
+    }
+        
+    </script>
     <div class="container">
-    <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                <?php if (isset($_SESSION['groupe'])) {
-                    echo "<- Liste des salons";
-                }?>
+    <a style="color:#ff6e46; font-size: 1.3em" onclick="retourlistesalons()">
+                <button><- Liste des salons </button>
     </a>
     <div class="row">
 		<div class="hidden-xs col-md-2"></div>
@@ -71,8 +86,6 @@
             const data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
             var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>" ;
-            var token = "<?php echo $_SESSION['token'];?>";
-
             $.ajax({
                 
                 type: "POST",

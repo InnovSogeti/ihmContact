@@ -4,31 +4,11 @@
     <div class="row">
          <div style="padding-top: 10px">
              <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                <?php if (isset($_SESSION['groupe'])) {
-                    echo "<- Liste des salons";
-                }?>
+                    <- Liste des salons
              </a>
         </div>
     </div>
 </div>
-
-<?php 
-$url = 'localhost:8000/getSalonCourant';
-$curl = curl_init($url);
-
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$curl_response = curl_exec($curl);
-if ($curl_response === false) {
-    $info = curl_getinfo($curl);
-    curl_close($curl);
-    die('error occured during curl exec. Additioanl info: ' . var_export($info));
-}
-curl_close($curl);
-$salonSelect = json_decode($curl_response);
-if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-    die('error occured: ' . $decoded->response->errormessage);
-}
-?>
 
 <script type="text/javascript" src="./javascripts/scannedText.js"></script>
 <div class="container">
@@ -38,22 +18,16 @@ if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') 
             <div id="all">
                 <img class="background" src="images/oser.png" alt="groupe Capgemini" width="100%">
             </div>
-            <br>
-            <?php if (count($listesalonscourant)>1) { ?>
-            <select id ="salon" class="btn btn-lg btn-primary btn-block" name="salons"  size="1" onchange="changeSalonCourant(this.value)">
+            <br>   
+
+            <div id = "listesaloncourant"></div>       
+            <!-- <select id ="salon" class="btn btn-lg btn-primary btn-block" name="salons"  size="1" onchange="changeSalonCourant(this.value)">
                 <option> Veuillez choisir un salon ! </option>
-                <?php
-                foreach($listesalonscourant as $data){
-                    $selected='';
-                    echo '<option value="'.$data->{'_id'}.'" '.$selected.'>'.$data->{'nom'}.'</option><br/>';
-                }
-                ?>
-            </select>
-            <?php } ?>
+            </select> -->
 
             <form class="form-signin">
                 <div class="form-group" id="form">
-                    <input type="hidden" name="id_salon" value="<?php echo $_SESSION['id_salon'] ?>">
+                    <input id = "idsalon" type="hidden" name="id_salon" value="">
                     <?php include('common/infos_perso.php'); ?>
                     <?php include('common/infos_competences.php'); ?>
                     <div class="form-group">
@@ -67,6 +41,7 @@ if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') 
 </div>
 
     <script>
+        document.getElementById("idsalon").value= id_salon;
         /**
          * permet de ne pas save les champs vide
          */

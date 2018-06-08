@@ -16,9 +16,9 @@
         <div class="container-fluid">
             <div class="row" style="background-color: #ff6e46">
                 <div class="col-xs-7">
-                    <h1 class="title"><?php
-                            echo 'Authentification';
-                    ?></h1>
+                    <h1 class="title">
+                        <div> Authentification </div>
+                    </h1>
                 </div>
                 <div class="col-xs-5">
                         <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">

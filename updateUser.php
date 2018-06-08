@@ -1,53 +1,105 @@
 <?php include('common/headerSalon.php'); ?>
-<?php require('control_session.php'); ?>
 <?php header('Access-Control-Allow-Origin: *');?>
+<script>
+    function extractUrlParams(){   
+        var t = location.search.substring(1).split('?');
+        var f = [];
+        for (var i=0; i<t.length; i++){
+            var x = t[ i ].split('=');
+            f[x[0]]=x[1];
+        }
+        return f;
+    }
+    var listeparam = extractUrlParams();
+    var token = listeparam.token;  
+    var id_user = listeparam.id_user;
 
+    function retourlistesalons() {
+        window.location.href="/salon.php?token="+token
+    }
+    function changeUser(choix) {
+                window.location.href="/updateUser.php?token="+token+"?id_user="+choix;  
+    };
+
+    $(document).ready(function () {
+            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>"+'/users';
+            console.log(url);
+            console.log(token);
+            
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType :"application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
+                dataType : "json",                                
+                success : function(users) {
+                    console.log(users);
+                    
+                    var listeUser = "<h1>";
+                    var selected= '';
+                    var i = 0;
+                    listeUser += "<SELECT id ='salon' class='btn btn-lg btn-primary btn-block' name='salons'  size='1' onchange='changeUser(this.value)'>";
+                    listeUser += "<option value = 'adduser'> Ajouter un utilisateur </option>";
+                    while (users[i]) {
+                        if (users[i]) {
+                            selected= '';
+                            if (users[i]._id == id_user) {
+                                selected = 'selected'; 
+                            }
+                            listeUser += "<option value ="+users[i]._id+" "+selected+">"+users[i].nom+"</option>";
+                        }
+                        i++;
+                    }               
+                    listeUser += "</select> </h1>"; 
+                    document.getElementById("listUser").innerHTML += listeUser;
+                }
+            })
+        if (id_user != "adduser") {
+            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"] ?>"+'/user/'+ id_user;
+            $.ajax({
+                type: "GET",
+                url: url,
+                contentType :"application/json; charset=utf-8",
+                headers:{
+                    "x-access-token": token
+                },
+                dataType : "json",                                
+                success : function(user_select) {
+                    console.log(user_select);
+                    
+                    document.getElementById("nom").value = user_select.nom;
+                    document.getElementById("prenom").value = user_select.prenom;
+                    document.getElementById("groupe").value = user_select.groupe;
+                    document.getElementById("telPro").value = user_select.telPro;
+                    document.getElementById("mail").value = user_select.mail;
+                    document.getElementById("login").value = user_select.login;
+                    document.getElementById("pwd").value = user_select.pwd;
+                }
+            })
+        }
+    });
+
+
+
+</script>
     </br>
     <div class="container">
-    <div class="row">
-         <div style="padding-top: 10px">
-             <a style="color:#ff6e46; font-size: 1.3em" href="/salon.php">
-                <?php if (isset($_SESSION['groupe'])) {
-                    echo "<- Liste des salons";
-                }?>
-             </a>
+        <div class="row">
+            <div style="padding-top: 10px">
+            <a style="color:#ff6e46; font-size: 1.3em" onclick="retourlistesalons()">
+                <button><- Liste des salons </button>
+            </a>
+            </div>
         </div>
+        </br>
     </div>
-</div>
-<?php
-        $url = 'localhost:8000/users';
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'x-access-token:'. $_SESSION['token'],
-        ));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-        }
-        curl_close($curl);
-        $listeUsers = json_decode($curl_response,true);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-?>
         <div class="row">
 		<div class="hidden-xs col-md-2"></div>
 		<div class="col-xs-12 col-md-8">
-        <form class="form-signin">
-            <h1>
-                <select id ="salon" class="btn btn-lg btn-primary btn-block" name="salons"  size="1" onchange="changeUser(this.value)">
-                <option>Choisir un utilisateur </option>
-                <?php
-                foreach($listeUsers as $data){
-                    $selected='';
-                    echo '<option value="'.$data["_id"].'" '.$selected.'>'.$data["nom"].'</option><br/>';
-                }
-                ?>
-                </select>
-            </h1>     
+        <div id="listUser"> </div>
+        <form class="form-signin">   
             <div class="form-group">
                 <label for="nom">Nom</label>
                 <input id = "nom" type="text" class="form-control" name="nom" placeholder="Nom de l'utilisateur" value = "" required>
@@ -87,48 +139,7 @@
 		<div class="hidden-xs col-md-2"></div>
     </div>
     </div>
-    <?php
-    if (isset($_GET['id_user'])) {
-    
-        $_SESSION['id_user']=$_GET['id_user'];
-    }
-        $url = 'localhost:8000/user/'. $_SESSION['id_user'];
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'x-access-token:'. $_SESSION['token'],
-        ));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $curl_response = curl_exec($curl);
-        if ($curl_response === false) {
-            $info = curl_getinfo($curl);
-            curl_close($curl);
-            die('error occured during curl exec. Additioanl info: ' . var_export($info));
-        }
-        curl_close($curl);
-        $user_select = json_decode($curl_response,true);
-        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-            die('error occured: ' . $decoded->response->errormessage);
-        }
-    
-?>
-    <script> 
-        function changeUser(id_user) {          
-            window.location.href="/updateUser.php?id_user="+id_user;
-        };
-        var user_select = <?php echo json_encode($user_select, JSON_HEX_TAG); ?>;
-
-        document.getElementById("nom").value = user_select.nom;
-        document.getElementById("prenom").value = user_select.prenom;
-        document.getElementById("groupe").value = user_select.groupe;
-        document.getElementById("telPro").value = user_select.telPro;
-        document.getElementById("mail").value = user_select.mail;
-        document.getElementById("login").value = user_select.login;
-        document.getElementById("pwd").value = user_select.pwd;
-
-    </script>
-        <script> 
-    var token = "<?php echo $_SESSION['token'] ;?>";
-
+<script> 
         /**
          * permet de ne pas save les champs vide
          */
@@ -140,7 +151,7 @@
         };
         const formToJSON = elements => [].reduce.call(elements, (data, element) => {
             if (isValidValue(element)) {
-                if (isCheckbox(element)) {
+                 if (isCheckbox(element)) {
                     data[element.name] = (data[element.name] || []).concat(element.value); 
                 } else {
                     data[element.name] = element.value;
@@ -153,10 +164,13 @@
             var data = formToJSON(form.elements);
             var json_form = JSON.stringify(data, null, " ");
             console.log(json_form);
+            var choixurl = id_user;
             
-            var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/user/update/".$_SESSION['id_user'] ?>" ;
-            
-            var token = "<?php echo $_SESSION['token'];?>";
+            if (choixurl == "adduser") {
+                var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/users/add" ?>";
+            } else {
+                var url= "<?php echo $ini_array["url_ws_distant"].":".$ini_array["port_ws_distant"]."/user/update/"?>"+id_user ;
+            }
                 
             $.ajax({
                 type: "POST",

@@ -1,59 +1,22 @@
-<?php
-    include('common/header.php');
-    $url = 'localhost:8000/getSalonCourant';
-    $curl = curl_init($url);
-    
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $curl_response = curl_exec($curl);
-    if ($curl_response === false) {
-        $info = curl_getinfo($curl);
-        curl_close($curl);
-        die('error occured during curl exec. Additioanl info: ' . var_export($info));
-    }
-    curl_close($curl);
-    $salonSelect = json_decode($curl_response);
-    if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-        die('error occured: ' . $decoded->response->errormessage);
-    }
-    $_SESSION["nbrsaloncourant"] = count($salonSelect);
-    $listesalonscourant = $salonSelect;
-    if(isset($_GET['id_salon'])){
-        if($_GET['id_salon']=='all'){
-            //$_SESSION['nom_salon']='all';
-            unset($_SESSION['nom_salon']);
-        }else{
-            $_SESSION['id_salon']=$_GET['id_salon'];
-            //Interrogation de la ressource Salon pour recuperer le nom et les dates du salon
-            $url = 'localhost:8000/salon/'.$_SESSION['id_salon'];
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $curl_response = curl_exec($curl);
-            if ($curl_response === false) {
-                $info = curl_getinfo($curl);
-                curl_close($curl);
-                die('error occured during curl exec. Additioanl info: ' . var_export($info));
-            }
-            curl_close($curl);
-            $salonSelect = json_decode($curl_response);
-            if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-                die('error occured: ' . $decoded->response->errormessage);
-            }
-            $_SESSION['nom_salon']=$salonSelect->{'nom'};
+<?php include('common/header.php'); ?>
+<script language="JavaScript" type="text/javascript">
+
+    function extractUrlParams(){   
+        var t = location.search.substring(1).split('?');
+        var f = [];
+        for (var i=0; i<t.length; i++){
+            var x = t[ i ].split('=');
+            f[x[0]]=x[1];
         }
+        return f;
     }
-    else{
-        if ((gettype($salonSelect)) == "array") {
-            $_SESSION['id_salon']=$salonSelect[0]->{'_id'};
-            $_SESSION['nom_salon']=$salonSelect[0]->{'nom'};
-        } else {
-            $_SESSION['id_salon']=$salonSelect->{'_id'};
-            $_SESSION['nom_salon']=$salonSelect->{'nom'};
-        }
+    var listeparam = extractUrlParams();
+    var token = listeparam.token;  
+    var id_salon = listeparam.id_salon;
         
-    }
-        header("Location: /index.php?id_salon="+$_SESSION['id_salon']);
-    
-?>
+
+</script>
+
 <body>
     <script>
         $(function() {
@@ -67,21 +30,7 @@
     <div class="container-fluid">
         <div class="row" style="background-color: #ff6e46">
             <div class="col-xs-7">
-                <h1 class="title"><?php
-                    if(isset($_SESSION['nom_salon'])){ //Si $var existe.
-                        echo $_SESSION['nom_salon'];
-                    }else{
-                        echo 'Salons';
-                    }
-                ?></h1>
-                <?php
-                    if (isset($_SESSION['groupe'])) {
-                        echo '<a class = "connect" href="./deconnect.php">Se déconnecter </button></a>';
-                    }
-                    else {
-                        echo '<a class = "connect" href="./authentification.php">Se connecter </button></a>';
-                    }
-                ?>
+                <h1 class="title"> <div id = "nom_salon"></div></h1>
             </div>
             <div class="col-xs-5">
                     <img class="logo" src="images/LogoTransparent_GOOD_RESOLUTION.gif" alt="groupe Sogeti">
@@ -89,6 +38,55 @@
 
         </div>
         <script>
+        $(document).ready(function () {
+            if (id_salon) {
+                var url= "http://localhost:8000/salon/"+id_salon;
+                    
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType :"application/json; charset=utf-8",
+                    dataType : "json",                                
+                    success : function(salon_choisi) {
+                        document.getElementById("nom_salon").innerHTML += salon_choisi.nom;
+                    }
+                })
+            }    
+            else { 
+                var url= "http://localhost:8000/getSalonCourant";
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType :"application/json; charset=utf-8",
+                    dataType : "json",                                
+                    success : function(salon_courant) {
+                        console.log(salon_courant.length);
+                        if (salon_courant.length > 1) {
+                            var listeSalon = "<h1>";
+                            var selected= '';
+                            var i = 0;
+                            listeSalon += "<select id = 'salon' class='btn btn-lg btn-primary btn-block' name='salon_courant'  size='1' onchange='changeSalonCourant(this.value)'>";
+                            listeSalon += "<option> Veuilez choisir un salon ! </option>"
+                            while (salon_courant[i]) {
+                                if (salon_courant[i]) {
+                                    selected= '';
+                                    if (salon_courant[i]._id == id_salon) {
+                                        selected = 'selected'; 
+                                    }
+                                    listeSalon += "<option value ="+salon_courant[i]._id+" "+selected+">"+salon_courant[i].nom+"</option>";
+                                }
+                                i++;
+                            }
+                            document.getElementById("listesaloncourant").innerHTML += listeSalon;      
+                        }
+                        else {                            
+                            document.getElementById("nom_salon").innerHTML = salon_courant[0].nom;
+                            window.location.href="/index.php?id_salon="+salon_courant[0]._id;                            
+                        }
+                    }
+                })
+            }
+        })
         function changeSalonCourant(idSalon) {          
             window.location.href="/index.php?id_salon="+idSalon;
         }

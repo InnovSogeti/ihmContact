@@ -69,24 +69,14 @@
             contentType: "application/json; charset=utf-8",
             data : json_form,
             success : function(result) { 
-            console.log(result);
-                $.post(
-                    'connexion.php',
-                    {
-                        groupe : result.groupe,
-                        token : result.token,
-                    },
-                    function(data){
-                        if(data == 'Success'){
-                                window.location.href="/salon.php";
-                        }
-                        else{
-                            alert("Mauvais login ou mot de passe");
-                        }
-                    },
-                    'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
-                );        
-                 
+                if (result.token) {
+                    // setcookie("token",result.token);
+                    document.cookie = 'token='+result.token+'; expires=Thu, 2 Aug 2022 20:47:11 UTC; path=/'
+                    window.location.href="/salon.php?token=" + result.token; 
+                }
+                else {
+                    alert("Mauvais login ou mot de passe");
+                }
             },
             error : function(resultat, statut, erreur){                
                 alert("Erreur");          
